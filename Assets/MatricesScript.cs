@@ -49,16 +49,6 @@ public class MatricesScript : MonoBehaviour
             originalSpaceBetweenObjects = spaceBetweenObjects;
             originalOffset = offset;
         }
-
-        float horizontal = -Input.GetAxis("Horizontal") * Time.deltaTime * speed;
-        float vertical = Input.GetAxis("Vertical") * Time.deltaTime * speed;
-
-
-        // Add smoothing using external object
-        cameraSmoother.transform.RotateAround(new Vector3(x / 2, 0, y / 2), Vector3.up, horizontal);
-        cameraSmoother.transform.RotateAround(new Vector3(x / 2, 0, y / 2), cameraSmoother.transform.right, vertical);
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraSmoother.transform.position, 6f * Time.deltaTime);
-        Camera.main.transform.LookAt(new Vector3(x / 2, 0, y / 2));
     }
 
     private void ClearGrid()
