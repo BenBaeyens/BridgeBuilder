@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour
             // Debug Start
             StartPathFind();
         }
+
+        if (Vector3.Distance(transform.position, destination.position) < 0.1f)
+        {
+            Debug.LogWarning("YOU WON");
+        }
     }
 
     public void StartPathFind()
