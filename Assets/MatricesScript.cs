@@ -73,7 +73,7 @@ public class MatricesScript : MonoBehaviour
                 grid[r].Add(GameObject.CreatePrimitive(type));
                 grid[r][c].transform.position = new Vector3(c * spaceBetweenObjects, 0, r * spaceBetweenObjects) + offset;
                 grid[r][c].transform.localScale = objectSize;
-                grid[r][c].AddComponent<BlockScriptOld>();
+                //grid[r][c].AddComponent<BlockScriptOld>();
                 grid[r][c].tag = "Block";
             }
         }
