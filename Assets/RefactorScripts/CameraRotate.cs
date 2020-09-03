@@ -27,13 +27,18 @@ public class CameraRotate : MonoBehaviour
     private void Update()
     {
         // Get the inputs from the user
-        float horizontal = -Input.GetAxis("Horizontal") * Time.deltaTime * cameraSpeed;
-        float vertical = Input.GetAxis("Vertical") * Time.deltaTime * cameraSpeed;
+        float horizontal = Input.GetAxis("Mouse X") * Time.deltaTime * cameraSpeed;
+        float vertical = -Input.GetAxis("Mouse Y") * Time.deltaTime * cameraSpeed;
 
 
-        // Add smoothing via external object
-        cameraSmoother.transform.RotateAround(centerPoint, Vector3.up, horizontal);
-        cameraSmoother.transform.RotateAround(centerPoint, cameraSmoother.transform.right, vertical);
+        if (Input.GetMouseButton(1))
+        {
+            // Add smoothing via external object when button is pressed
+            cameraSmoother.transform.RotateAround(centerPoint, Vector3.up, horizontal);
+            cameraSmoother.transform.RotateAround(centerPoint, cameraSmoother.transform.right, vertical);
+        }
+
+
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraSmoother.transform.position, cameraLerpSpeed * Time.deltaTime);
         cameraSmoother.transform.LookAt(centerPoint);
         Camera.main.transform.LookAt(centerPoint);
