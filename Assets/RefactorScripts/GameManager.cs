@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
+    // PUBLIC VARIABLES
     public Material defaultMaterial; // The material the gameobject will have when not selected
     public Material selectedMaterial; // The material the gameobject will have when selected
     public string blockTag = "Block"; // The tag to compare with
 
+    // PRIVATE VARIABLES
     GameObject lastSelectedObject;
     Renderer lastSelectedObjectRenderer;
     RaycastHit hit;
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
         if (LastSelectedObjectIsValid())
         {
             lastSelectedObject.GetComponent<Renderer>().material = defaultMaterial;
+            lastSelectedObject = null;
         }
     }
 

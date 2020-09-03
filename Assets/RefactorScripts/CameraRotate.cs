@@ -35,6 +35,7 @@ public class CameraRotate : MonoBehaviour
         cameraSmoother.transform.RotateAround(centerPoint, Vector3.up, horizontal);
         cameraSmoother.transform.RotateAround(centerPoint, cameraSmoother.transform.right, vertical);
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraSmoother.transform.position, cameraLerpSpeed * Time.deltaTime);
+        cameraSmoother.transform.LookAt(centerPoint);
         Camera.main.transform.LookAt(centerPoint);
 
         // Debugging rays
