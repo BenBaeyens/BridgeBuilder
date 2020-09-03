@@ -39,13 +39,5 @@ public class MaterialChangeOnHover : MonoBehaviour
             lastSelected = null;
         }
 
-        if (Input.GetMouseButton(0) && lastSelected != null)
-        {
-            lastSelected.GetComponent<BlockScript>().MoveUpCall();
-        }
-        if (Input.GetMouseButton(1) && lastSelected != null)
-        {
-            lastSelected.GetComponent<BlockScript>().MoveDownCall();
-        }
     }
 }

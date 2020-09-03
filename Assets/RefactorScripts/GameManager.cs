@@ -48,17 +48,12 @@ public class GameManager : MonoBehaviour
 
         #endregion
         #region InputFunction
+
+        float mouseY = Input.GetAxis("Mouse Y") * 26;
         // If the left mouse button gets clicked on an object, raise it
         if (Input.GetMouseButton(0) && LastSelectedObjectIsValid())
             // Change this to the corresponding script
-            lastSelectedObject.GetComponent<BlockScript>().MoveUpCall();
-
-
-        // If the right mouse button gets clicked on an object, raise it
-        if (Input.GetMouseButton(1) && LastSelectedObjectIsValid())
-            // Change this to the corresponding script  
-            lastSelectedObject.GetComponent<BlockScript>().MoveDownCall();
-
+            lastSelectedObject.GetComponent<BlockScript>().MoveUpCall(mouseY);
         #endregion
 
     }

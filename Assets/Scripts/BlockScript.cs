@@ -43,7 +43,7 @@ public class BlockScript : MonoBehaviour
         }
         if (!HasReachedDestination())
         {
-            transform.position = Vector3.Lerp(transform.position, destination, Time.deltaTime / 2 + 0.008f);
+            transform.position = Vector3.Lerp(transform.position, destination, Time.deltaTime / 15);
         }
     }
 
@@ -78,21 +78,12 @@ public class BlockScript : MonoBehaviour
 
     }
 
-    public void MoveUpCall()
+    public void MoveUpCall(float mouseInput)
     {
-        if (!HasReachedTop())
-        {
-            destination += new Vector3(0, speedIncrements * Time.deltaTime, 0);
-        }
-    }
-    public void MoveDownCall()
-    {
-        if (!HasReachedBottom())
-        {
-            destination -= new Vector3(0, speedIncrements * Time.deltaTime, 0);
-        }
-    }
 
+        destination += new Vector3(0, speedIncrements * Time.deltaTime * mouseInput, 0);
+
+    }
     public void ShootOffCall()
     {
         destination = transform.position * 3 / 2;
