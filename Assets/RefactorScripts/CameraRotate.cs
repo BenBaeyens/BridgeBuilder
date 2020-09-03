@@ -28,10 +28,7 @@ public class CameraRotate : MonoBehaviour
     private void Update()
     {
         // Get the inputs from the user
-<<<<<<< Updated upstream
-        float horizontal = -Input.GetAxis("Horizontal") * Time.deltaTime * cameraSpeed;
-        float vertical = Input.GetAxis("Vertical") * Time.deltaTime * cameraSpeed;
-=======
+
         float horizontal = Input.GetAxis("Mouse X") * Time.deltaTime * cameraSpeed;
         float vertical = -Input.GetAxis("Mouse Y") * Time.deltaTime * cameraSpeed;
         float back = -Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * cameraZoomSpeed;
@@ -45,7 +42,7 @@ public class CameraRotate : MonoBehaviour
             cameraSmoother.transform.RotateAround(centerPoint, Vector3.up, horizontal);
             cameraSmoother.transform.RotateAround(centerPoint, cameraSmoother.transform.right, vertical);
         }
->>>>>>> Stashed changes
+
 
         // If no longer turning, set cursor to visible again 
         if (Input.GetMouseButtonUp(1))
@@ -54,14 +51,8 @@ public class CameraRotate : MonoBehaviour
             Cursor.visible = true;
         }
 
-<<<<<<< Updated upstream
-        // Add smoothing via external object
-        cameraSmoother.transform.RotateAround(centerPoint, Vector3.up, horizontal);
-        cameraSmoother.transform.RotateAround(centerPoint, cameraSmoother.transform.right, vertical);
-=======
         // TODO: ADD CLAMP TO THIS
         cameraSmoother.transform.position += Vector3.back * back;
->>>>>>> Stashed changes
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraSmoother.transform.position, cameraLerpSpeed * Time.deltaTime);
         cameraSmoother.transform.LookAt(centerPoint);
         Camera.main.transform.LookAt(centerPoint);
