@@ -26,15 +26,20 @@ public class CameraRotate : MonoBehaviour
 
     private void Update()
     {
+        // Get the inputs from the user
         float horizontal = -Input.GetAxis("Horizontal") * Time.deltaTime * cameraSpeed;
         float vertical = Input.GetAxis("Vertical") * Time.deltaTime * cameraSpeed;
 
 
-        // Add smoothing using external object
+        // Add smoothing via external object
         cameraSmoother.transform.RotateAround(centerPoint, Vector3.up, horizontal);
         cameraSmoother.transform.RotateAround(centerPoint, cameraSmoother.transform.right, vertical);
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraSmoother.transform.position, cameraLerpSpeed * Time.deltaTime);
         Camera.main.transform.LookAt(centerPoint);
+
+        // Debugging rays
+        Debug.DrawRay(centerPoint, cameraSmoother.transform.position, Color.red);
+        Debug.DrawRay(centerPoint, Camera.main.transform.position, Color.green);
     }
 
     private void OnDrawGizmos()
