@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +6,8 @@ public class CameraRotate : MonoBehaviour
 {
 
     public Vector3 centerPoint; // The point at which the camera rotates
-    public float cameraSpeed = 29f; // The speed at which the camera moves
+    public float cameraSpeed = 250f; // The speed at which the camera moves
+    public float cameraZoomSpeed = 100f; // The speed at which the camera zooms in and out
     public float cameraLerpSpeed = 6f; // The speed at which the camera follows the smoother object
     public GameObject centerPointObject; // Optional center point object
 
@@ -27,18 +28,31 @@ public class CameraRotate : MonoBehaviour
     private void Update()
     {
         // Get the inputs from the user
+
         float horizontal = Input.GetAxis("Mouse X") * Time.deltaTime * cameraSpeed;
         float vertical = -Input.GetAxis("Mouse Y") * Time.deltaTime * cameraSpeed;
-
-
+        float back = -Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * cameraZoomSpeed;
+        
+           // If mouse button down, turn. (Could change this to cursorlockmode.confined)
         if (Input.GetMouseButton(1))
         {
-            // Add smoothing via external object when button is pressed
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            // Add smoothing via external object
             cameraSmoother.transform.RotateAround(centerPoint, Vector3.up, horizontal);
             cameraSmoother.transform.RotateAround(centerPoint, cameraSmoother.transform.right, vertical);
         }
 
 
+        // If no longer turning, set cursor to visible again 
+        if (Input.GetMouseButtonUp(1))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        // TODO: ADD CLAMP TO THIS
+        cameraSmoother.transform.position += Vector3.back * back;
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraSmoother.transform.position, cameraLerpSpeed * Time.deltaTime);
         cameraSmoother.transform.LookAt(centerPoint);
         Camera.main.transform.LookAt(centerPoint);
