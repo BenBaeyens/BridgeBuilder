@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
         if (isMovingObject)
         {
-            lastSelectedObject.GetComponent<BlockScript>().MoveUpCall(mouseY);
+            lastSelectedObject.GetComponent<BlockScriptOld>().MoveUpCall(mouseY);
         }
         #endregion
 
