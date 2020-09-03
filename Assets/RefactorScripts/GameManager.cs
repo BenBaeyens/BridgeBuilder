@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     Renderer lastSelectedObjectRenderer;
     RaycastHit hit;
     Ray ray;
-    bool isMovingObject;
+    [HideInInspector] public bool isMovingObject;
 
     private void Update()
     {
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         #endregion
         #region InputFunction
 
-        float mouseY = Input.GetAxis("Mouse Y") * 26;
+        float mouseY = Input.GetAxis("Mouse Y");
         // If the left mouse button gets clicked on an object, raise it
         if (Input.GetMouseButton(0) && LastSelectedObjectIsValid())
         {
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
         if (isMovingObject)
         {
-            lastSelectedObject.GetComponent<BlockScriptOld>().MoveUpCall(mouseY);
+            lastSelectedObject.GetComponent<BlockScript>().MoveVerticalCall(mouseY);
         }
         #endregion
 
