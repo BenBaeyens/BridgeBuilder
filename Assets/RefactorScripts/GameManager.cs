@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     Renderer lastSelectedObjectRenderer;
     RaycastHit hit;
     Ray ray;
+    bool isMovingObject;
 
     private void Update()
     {
@@ -52,8 +53,23 @@ public class GameManager : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * 26;
         // If the left mouse button gets clicked on an object, raise it
         if (Input.GetMouseButton(0) && LastSelectedObjectIsValid())
+        {
             // Change this to the corresponding script
-            lastSelectedObject.GetComponent<BlockScript>().MoveUpCall(mouseY);
+            isMovingObject = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            isMovingObject = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        if (isMovingObject)
+        {
+            lastSelectedObject.GetComponent<BlockScriptOld>().MoveUpCall(mouseY);
+        }
         #endregion
 
     }
@@ -61,7 +77,7 @@ public class GameManager : MonoBehaviour
     // Reset the material to its original color when the gameobject is no longer selected
     void ResetMaterial()
     {
-        if (LastSelectedObjectIsValid())
+        if (LastSelectedObjectIsValid() && !isMovingObject)
         {
             lastSelectedObject.GetComponent<Renderer>().material = defaultMaterial;
             lastSelectedObject = null;

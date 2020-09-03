@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockScript : MonoBehaviour
+public class BlockScriptOld : MonoBehaviour
 {
 
     public float speedIncrements = 10f;
@@ -43,7 +43,7 @@ public class BlockScript : MonoBehaviour
         }
         if (!HasReachedDestination())
         {
-            transform.position = Vector3.Lerp(transform.position, destination, Time.deltaTime / 15);
+            transform.position = Vector3.Lerp(transform.position, destination, Time.deltaTime);
         }
     }
 
@@ -81,7 +81,7 @@ public class BlockScript : MonoBehaviour
     public void MoveUpCall(float mouseInput)
     {
 
-        destination += new Vector3(0, speedIncrements * Time.deltaTime * mouseInput, 0);
+        destination += new Vector3(0, speedIncrements * Time.deltaTime * mouseInput / 10, 0);
 
     }
     public void ShootOffCall()

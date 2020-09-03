@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,8 +32,8 @@ public class CameraRotate : MonoBehaviour
         float horizontal = Input.GetAxis("Mouse X") * Time.deltaTime * cameraSpeed;
         float vertical = -Input.GetAxis("Mouse Y") * Time.deltaTime * cameraSpeed;
         float back = -Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * cameraZoomSpeed;
-
-        // If mouse button down, turn. (Could change this to cursorlockmode.confined)
+        
+           // If mouse button down, turn. (Could change this to cursorlockmode.confined)
         if (Input.GetMouseButton(1))
         {
             Cursor.lockState = CursorLockMode.Locked;
