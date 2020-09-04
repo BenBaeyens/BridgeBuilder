@@ -128,6 +128,6 @@ MonoBehaviour:
   startDistanceOffset: {x: 0, y: -5, z: 0}
   randomOffsetMargin: {x: 0, y: 0, z: 0}
   checkDistance: 0.01
-  snapCheckDistance: 0.6
+  snapCheckDistance: 0.4
   snapDistances:
   - {x: 0, y: -4.7, z: 0}

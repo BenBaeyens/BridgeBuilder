@@ -752,6 +752,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 721070213}
     m_Modifications:
+    - target: {fileID: 6195307412817339036, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: snapDistances.Array.data[0].y
+      value: -4.71
+      objectReference: {fileID: 0}
     - target: {fileID: 6195307412817339039, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
       propertyPath: m_Name
       value: MoveableBlock (1)
@@ -1924,6 +1928,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 721070213}
     m_Modifications:
+    - target: {fileID: 6195307412817339036, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: snapDistances.Array.data[0].y
+      value: -4.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 6195307412817339036, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: snapCheckDistance
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 6195307412817339039, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
       propertyPath: m_Name
       value: MoveableBlock
