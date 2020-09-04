@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
 
     {
-        destination = GameObject.Find("Point").transform;
+        destination = GameObject.FindObjectOfType<LocalNavMeshBuilder>().transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
