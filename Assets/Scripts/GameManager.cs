@@ -14,7 +14,13 @@ public class GameManager : MonoBehaviour
     Renderer lastSelectedObjectRenderer;
     RaycastHit hit;
     Ray ray;
+    CameraRotate camScript; // The camera rotation script
     [HideInInspector] public bool isMovingObject;
+
+    private void Start()
+    {
+        camScript = Camera.main.GetComponent<CameraRotate>();
+    }
 
     private void Update()
     {
@@ -28,7 +34,7 @@ public class GameManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             // First, check if we hit a clickable object
-            if (hit.transform.CompareTag(blockTag))
+            if (hit.transform.CompareTag(blockTag) && !camScript.isRotating)
             {
 
                 // Check if the we have selected an object before and change its material
@@ -52,7 +58,7 @@ public class GameManager : MonoBehaviour
 
         float mouseY = Input.GetAxis("Mouse Y");
         // If the left mouse button gets clicked on an object, raise it
-        if (Input.GetMouseButton(0) && LastSelectedObjectIsValid())
+        if (Input.GetMouseButton(0) && LastSelectedObjectIsValid() && !camScript.isRotating)
         {
             // Change this to the corresponding script
             isMovingObject = true;
@@ -66,7 +72,7 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
         }
 
-        if (isMovingObject)
+        if (isMovingObject && !camScript.isRotating)
         {
             lastSelectedObject.GetComponent<BlockScript>().MoveVerticalCall(mouseY);
         }
