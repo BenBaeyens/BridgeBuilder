@@ -11,6 +11,10 @@ public class CameraRotate : MonoBehaviour
     public float cameraLerpSpeed = 6f; // The speed at which the camera follows the smoother object
     public GameObject centerPointObject; // Optional center point object
 
+    public float minBackMove; // How much the camera can move from its starting position
+    public float maxBackMove; // ^^
+    public float backMove = 0;
+
     [HideInInspector] public bool isRotating; // Communicate with the game manager script;
     GameObject cameraSmoother;
 
@@ -33,6 +37,7 @@ public class CameraRotate : MonoBehaviour
         float horizontal = Input.GetAxis("Mouse X") * Time.deltaTime * cameraSpeed;
         float vertical = -Input.GetAxis("Mouse Y") * Time.deltaTime * cameraSpeed;
         float back = -Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * cameraZoomSpeed;
+        backMove += back;
 
         // If mouse button down, turn. (Could change this to cursorlockmode.confined)
         if (Input.GetMouseButton(1))
@@ -54,8 +59,16 @@ public class CameraRotate : MonoBehaviour
             isRotating = false;
         }
 
-        // TODO: ADD CLAMP TO THIS
-        cameraSmoother.transform.position += Vector3.back * back;
+        if (backMove >= minBackMove && backMove <= maxBackMove)
+        {
+            cameraSmoother.transform.position += Vector3.back * back;
+        }
+        else
+        {
+            backMove = Mathf.Clamp(backMove, minBackMove, maxBackMove);
+        }
+
+
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraSmoother.transform.position, cameraLerpSpeed * Time.deltaTime);
         cameraSmoother.transform.LookAt(centerPoint);
         Camera.main.transform.LookAt(centerPoint);
