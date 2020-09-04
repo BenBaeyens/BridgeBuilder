@@ -22,12 +22,13 @@ public class BlockScript : MonoBehaviour
 
 
     Vector3 destination;
-
+    Vector3 originalPos;
     GameManager gameManager;
 
 
     void Start()
     {
+        originalPos = transform.position;
         destination = transform.position + new Vector3(Random.Range(-randomOffsetMargin.x, randomOffsetMargin.x), Random.Range(-randomOffsetMargin.y, randomOffsetMargin.y), Random.Range(-randomOffsetMargin.z, randomOffsetMargin.z)); // Apply the random offset
         transform.position += startDistanceOffset; // Set the block position down by the offset
         gameManager = GameObject.FindObjectOfType<GameManager>(); // The game manager
@@ -65,10 +66,11 @@ public class BlockScript : MonoBehaviour
     public void MoveVerticalCall(float mouseInput)
     {
 
+        // Check this when changing blocks to sideways movement
         destination += new Vector3(0, moveSpeed * mouseInput * Time.deltaTime, 0);
-        float destinationX = Mathf.Clamp(destination.x, minLimit.x, maxLimit.x);
+        float destinationX = Mathf.Clamp(destination.x, minLimit.x + originalPos.x, maxLimit.x + originalPos.x);
         float destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
-        float destinationZ = Mathf.Clamp(destination.z, minLimit.z, maxLimit.z);
+        float destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
 
         destination = new Vector3(destinationX, destinationY, destinationZ);
     }
