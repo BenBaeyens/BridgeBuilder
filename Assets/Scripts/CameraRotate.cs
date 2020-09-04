@@ -15,6 +15,8 @@ public class CameraRotate : MonoBehaviour
     public float maxBackMove; // ^^
     public float backMove = 0;
 
+    public float minDegree;
+
     [HideInInspector] public bool isRotating; // Communicate with the game manager script;
     GameObject cameraSmoother;
 
@@ -45,9 +47,17 @@ public class CameraRotate : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             isRotating = true;
+
             // Add smoothing via external object
+            // Clamp code
+            if (cameraSmoother.transform.localEulerAngles.x > minDegree && cameraSmoother.transform.localEulerAngles.x < 89 || vertical > 0)
+                cameraSmoother.transform.RotateAround(centerPoint, cameraSmoother.transform.right, vertical);
+
+            else if (cameraSmoother.transform.localEulerAngles.x > 89 && cameraSmoother.transform.localEulerAngles.x < 300)
+                cameraSmoother.transform.RotateAround(centerPoint, -cameraSmoother.transform.right, 0.1f);
+
+            // Always rotate horizontally
             cameraSmoother.transform.RotateAround(centerPoint, Vector3.up, horizontal);
-            cameraSmoother.transform.RotateAround(centerPoint, cameraSmoother.transform.right, vertical);
         }
 
 
@@ -68,10 +78,23 @@ public class CameraRotate : MonoBehaviour
             backMove = Mathf.Clamp(backMove, minBackMove, maxBackMove);
         }
 
+        Debug.Log(cameraSmoother.transform.localEulerAngles.x);
 
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraSmoother.transform.position, cameraLerpSpeed * Time.deltaTime);
+
+        Camera.main.transform.position = Vector3.Slerp(Camera.main.transform.position, cameraSmoother.transform.position, cameraLerpSpeed * Time.deltaTime);
         cameraSmoother.transform.LookAt(centerPoint);
         Camera.main.transform.LookAt(centerPoint);
+
+        // When camera is too low, raise it up a little bit when the player lets go
+        if (!Input.GetMouseButton(1))
+        {
+            if (cameraSmoother.transform.localEulerAngles.x < minDegree || cameraSmoother.transform.localEulerAngles.x > 300)
+            {
+                cameraSmoother.transform.position += new Vector3(0, 0.1f, 0);
+            }
+        }
+
+
 
         // Debugging rays
         Debug.DrawRay(centerPoint, cameraSmoother.transform.position, Color.red);
