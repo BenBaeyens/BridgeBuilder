@@ -70,15 +70,10 @@ public class CameraRotate : MonoBehaviour
         }
 
         if (backMove >= minBackMove && backMove <= maxBackMove)
-        {
             cameraSmoother.transform.position += Vector3.back * back;
-        }
         else
-        {
             backMove = Mathf.Clamp(backMove, minBackMove, maxBackMove);
-        }
 
-        Debug.Log(cameraSmoother.transform.localEulerAngles.x);
 
 
         Camera.main.transform.position = Vector3.Slerp(Camera.main.transform.position, cameraSmoother.transform.position, cameraLerpSpeed * Time.deltaTime);
@@ -89,9 +84,7 @@ public class CameraRotate : MonoBehaviour
         if (!Input.GetMouseButton(1))
         {
             if (cameraSmoother.transform.localEulerAngles.x < minDegree || cameraSmoother.transform.localEulerAngles.x > 300)
-            {
                 cameraSmoother.transform.position += new Vector3(0, 0.1f, 0);
-            }
         }
 
 
