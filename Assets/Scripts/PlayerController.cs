@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
         }
         if (hasReached && hasStarted)
         {
-            if (currentPoint + 2 <= navCheckPoints.Count)
+            if (currentPoint + 1 <= navCheckPoints.Count)
             {
                 agent.destination = navCheckPoints[currentPoint].position;
                 currentPoint++;
