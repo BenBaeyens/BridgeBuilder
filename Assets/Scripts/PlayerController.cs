@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
     public void StartPathFind()
     {
-        if (navCheckPoints.Count > 1)
+        if (navCheckPoints.Count >= 1)
         {
             agent.destination = navCheckPoints[currentPoint].position;
             hasStarted = true;
