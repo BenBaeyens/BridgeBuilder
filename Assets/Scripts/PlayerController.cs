@@ -28,21 +28,24 @@ public class PlayerController : MonoBehaviour
             StartPathFind();
         }
 
-        if (Vector3.Distance(transform.position, agent.destination) < 0.4f)
+        Debug.Log(Vector3.Distance(transform.position, agent.destination));
+
+        if (Vector3.Distance(transform.position, agent.destination) < 0.6f)
         {
-            hasReached = false;
+            hasReached = true;
         }
-        if (hasReached)
+        if (hasReached && hasStarted)
         {
-            if (currentPoint + 2 < navCheckPoints.Count)
+            if (currentPoint + 2 <= navCheckPoints.Count)
             {
-                currentPoint++;
                 agent.destination = navCheckPoints[currentPoint].position;
+                currentPoint++;
             }
             else
             {
                 agent.destination = destination.position;
             }
+            hasReached = false;
         }
     }
 
