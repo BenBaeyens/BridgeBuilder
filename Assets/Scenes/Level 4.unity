@@ -1630,6 +1630,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 721070213}
     m_Modifications:
+    - target: {fileID: 4237492154978894909, guid: e8b935586d0da7c47a090bd35bb5ddd3, type: 3}
+      propertyPath: destination
+      value: 
+      objectReference: {fileID: 753465426}
     - target: {fileID: 4237492154989547098, guid: e8b935586d0da7c47a090bd35bb5ddd3, type: 3}
       propertyPath: m_Name
       value: StartCube
