@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     // Path debugger
     private void OnDrawGizmosSelected()
     {
-        if (navCheckPoints.Count > 1)
+        if (navCheckPoints.Count >= 1)
         {
             for (int i = 0; i < navCheckPoints.Count; i++)
             {
@@ -75,9 +75,14 @@ public class PlayerController : MonoBehaviour
                 if (i == 0)
                 {
                     Gizmos.DrawLine(transform.position, navCheckPoints[i].position);
-                    Gizmos.DrawLine(navCheckPoints[i].position, navCheckPoints[i + 1].position);
+                    if (navCheckPoints.Count > 1)
+                        Gizmos.DrawLine(navCheckPoints[i].position, navCheckPoints[i + 1].position);
                 }
-                else if (i == navCheckPoints.Count - 1)
+                if (navCheckPoints.Count == 1)
+                {
+                    Gizmos.DrawLine(navCheckPoints[i].position, destination.position);
+                }
+                else if (i == navCheckPoints.Count - 1 && navCheckPoints.Count > 1)
                     Gizmos.DrawLine(navCheckPoints[i].position, destination.position);
                 else
                     Gizmos.DrawLine(navCheckPoints[i].position, navCheckPoints[i + 1].position);
