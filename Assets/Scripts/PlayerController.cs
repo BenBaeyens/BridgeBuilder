@@ -5,14 +5,18 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    Transform destination;
-    public NavMeshAgent agent;
+    [HideInInspector] public NavMeshAgent agent;
     public bool hasStarted;
+
+    public Transform destination;
+    public List<Transform> navCheckPoints; // Checkpoints the player has to pass through to reach the end goal
+
+    int currentPoint = 0;
+    bool hasReached;
 
     private void Start()
 
     {
-        destination = GameObject.FindObjectOfType<LocalNavMeshBuilder>().transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -24,16 +28,62 @@ public class PlayerController : MonoBehaviour
             StartPathFind();
         }
 
-        if (Vector3.Distance(transform.position, destination.position) < 0.1f)
+        if (Vector3.Distance(transform.position, agent.destination) < 0.4f)
         {
-            Debug.LogWarning("YOU WON");
+            hasReached = false;
+        }
+        if (hasReached)
+        {
+            if (currentPoint + 2 < navCheckPoints.Count)
+            {
+                currentPoint++;
+                agent.destination = navCheckPoints[currentPoint].position;
+            }
+            else
+            {
+                agent.destination = destination.position;
+            }
         }
     }
 
     public void StartPathFind()
     {
-        agent.destination = destination.position;
-        hasStarted = true;
+        if (navCheckPoints.Count > 1)
+        {
+            agent.destination = navCheckPoints[currentPoint].position;
+            hasStarted = true;
+        }
+        else
+        {
+            agent.destination = destination.position;
+        }
+    }
+
+
+    // Path debugger
+    private void OnDrawGizmosSelected()
+    {
+        if (navCheckPoints.Count > 1)
+        {
+            for (int i = 0; i < navCheckPoints.Count; i++)
+            {
+                Gizmos.color = Color.red;
+
+                if (i == 0)
+                {
+                    Gizmos.DrawLine(transform.position, navCheckPoints[i].position);
+                    Gizmos.DrawLine(navCheckPoints[i].position, navCheckPoints[i + 1].position);
+                }
+                else if (i == navCheckPoints.Count - 1)
+                    Gizmos.DrawLine(navCheckPoints[i].position, destination.position);
+                else
+                    Gizmos.DrawLine(navCheckPoints[i].position, navCheckPoints[i + 1].position);
+
+                Gizmos.DrawSphere(navCheckPoints[i].position, 0.2f);
+                Gizmos.color = Color.green;
+                Gizmos.DrawSphere(destination.position, 0.2f);
+            }
+        }
     }
 
 }
