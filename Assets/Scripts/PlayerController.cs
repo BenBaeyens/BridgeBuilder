@@ -29,10 +29,7 @@ public class PlayerController : MonoBehaviour
             StartPathFind();
         }
 
-        if (Vector3.Distance(transform.position, agent.destination) < 0.6f)
-            hasReached = true;
-
-        if (hasReached && hasStarted)
+        if (HasReachedDestination() && hasStarted)
         {
             if (currentPoint + 1 <= navCheckPoints.Count)
             {
@@ -88,6 +85,13 @@ public class PlayerController : MonoBehaviour
                 Gizmos.DrawSphere(destination.position, 0.2f);
             }
         }
+    }
+
+    public bool HasReachedDestination()
+    {
+        if (Vector3.Distance(transform.position, agent.destination) < 0.6f)
+            return true;
+        return false;
     }
 
 }

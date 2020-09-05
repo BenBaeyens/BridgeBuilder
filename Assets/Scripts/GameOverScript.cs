@@ -46,7 +46,7 @@ public class GameOverScript : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         Debug.Log(playerController.hasStarted + " , " + playerController.destinationIsEndPoint + " , " + playerController.agent.velocity + " , " + gameOver);
-        if (playerController.hasStarted && playerController.destinationIsEndPoint && playerController.agent.velocity == Vector3.zero && !gameOver)
+        if (playerController.HasReachedDestination() && playerController.hasStarted && playerController.destinationIsEndPoint && playerController.agent.velocity == Vector3.zero && !gameOver)
         {
             gameWin = true;
         }
