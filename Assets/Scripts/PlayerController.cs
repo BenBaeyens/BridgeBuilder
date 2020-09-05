@@ -5,12 +5,13 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector] public NavMeshAgent agent;
     public bool hasStarted;
 
     public Transform destination;
     public List<Transform> navCheckPoints; // Checkpoints the player has to pass through to reach the end goal
 
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public bool destinationIsEndPoint;
     int currentPoint = 0;
     bool hasReached;
 
@@ -47,13 +48,16 @@ public class PlayerController : MonoBehaviour
 
     public void StartPathFind()
     {
+        hasStarted = true;
         if (navCheckPoints.Count >= 1)
         {
             agent.destination = navCheckPoints[currentPoint].position;
-            hasStarted = true;
         }
         else
+        {
+            destinationIsEndPoint = true;
             agent.destination = destination.position;
+        }
     }
 
 
