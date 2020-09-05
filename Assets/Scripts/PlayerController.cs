@@ -28,12 +28,9 @@ public class PlayerController : MonoBehaviour
             StartPathFind();
         }
 
-        Debug.Log(Vector3.Distance(transform.position, agent.destination));
-
         if (Vector3.Distance(transform.position, agent.destination) < 0.6f)
-        {
             hasReached = true;
-        }
+
         if (hasReached && hasStarted)
         {
             if (currentPoint + 1 <= navCheckPoints.Count)
@@ -42,9 +39,8 @@ public class PlayerController : MonoBehaviour
                 currentPoint++;
             }
             else
-            {
                 agent.destination = destination.position;
-            }
+
             hasReached = false;
         }
     }
@@ -57,9 +53,7 @@ public class PlayerController : MonoBehaviour
             hasStarted = true;
         }
         else
-        {
             agent.destination = destination.position;
-        }
     }
 
 
@@ -79,9 +73,7 @@ public class PlayerController : MonoBehaviour
                         Gizmos.DrawLine(navCheckPoints[i].position, navCheckPoints[i + 1].position);
                 }
                 if (navCheckPoints.Count == 1)
-                {
                     Gizmos.DrawLine(navCheckPoints[i].position, destination.position);
-                }
                 else if (i == navCheckPoints.Count - 1 && navCheckPoints.Count > 1)
                     Gizmos.DrawLine(navCheckPoints[i].position, destination.position);
                 else
