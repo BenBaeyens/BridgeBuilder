@@ -71,10 +71,13 @@ public class GameManager : MonoBehaviour
         // If the left mouse button gets clicked on an object, raise it
         if (Input.GetMouseButton(0) && LastSelectedObjectIsValid() && !camScript.isRotating)
         {
-            // Change this to the corresponding script
-            isMovingObject = true;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            if (!lastSelectedObject.GetComponent<BlockScript>().hasPlayerOnTop)
+            {
+                // Change this to the corresponding script
+                isMovingObject = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
         if (Input.GetMouseButtonUp(0))
         {
