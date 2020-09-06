@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
     // PUBLIC VARIABLES
     public Material defaultMaterial; // The material the gameobject will have when not selected
     public Material selectedMaterial; // The material the gameobject will have when selected
-    public Material unmovableBlockMaterial; // The material when the player is on top of it
     public string blockTag = "Block"; // The tag to compare with
 
     // PRIVATE VARIABLES
@@ -37,26 +36,16 @@ public class GameManager : MonoBehaviour
             // First, check if we hit a clickable object
             if (hit.transform.CompareTag(blockTag) && !camScript.isRotating)
             {
-                if (!hit.transform.GetComponent<BlockScript>().hasPlayerOnTop)
-                {
-                    // Check if the we have selected an object before and change its material
-                    ResetMaterial();
 
-                    // Set the variables for the newly selected component
-                    lastSelectedObject = hit.transform.gameObject;
-                    lastSelectedObjectRenderer = hit.transform.GetComponent<Renderer>();
+                // Check if the we have selected an object before and change its material
+                ResetMaterial();
 
-                    // Set the material to selected
-                    lastSelectedObjectRenderer.material = selectedMaterial;
-                }
-                else
-                {
-                    ResetMaterial();
-                    lastSelectedObject = hit.transform.gameObject;
-                    lastSelectedObjectRenderer = hit.transform.GetComponent<Renderer>();
+                // Set the variables for the newly selected component
+                lastSelectedObject = hit.transform.gameObject;
+                lastSelectedObjectRenderer = hit.transform.GetComponent<Renderer>();
 
-                    lastSelectedObjectRenderer.material = unmovableBlockMaterial;
-                }
+                // Set the material to selected
+                lastSelectedObjectRenderer.material = selectedMaterial;
             }
             else
                 ResetMaterial();
