@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4237492154978894909}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,12 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d76e105881e73e49b70ad819a831a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasStarted: 0
-  destination: {fileID: 0}
-  navCheckPoints: []
-  blockTag: Block
   agent: {fileID: 0}
-  destinationIsEndPoint: 0
+  hasStarted: 0
 --- !u!1 &4237492154989547098
 GameObject:
   m_ObjectHideFlags: 0

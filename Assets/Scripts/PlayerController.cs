@@ -95,19 +95,19 @@ public class PlayerController : MonoBehaviour
 
     // methods for player checking
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Block"))
         {
-            other.gameObject.transform.parent.GetComponent<BlockScript>().hasPlayerOnTop = true;
+            other.gameObject.GetComponent<BlockScript>().hasPlayerOnTop = true;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
         if (other.gameObject.CompareTag("Block"))
         {
-            other.gameObject.transform.parent.GetComponent<BlockScript>().hasPlayerOnTop = false;
+            other.gameObject.GetComponent<BlockScript>().hasPlayerOnTop = false;
         }
     }
 
