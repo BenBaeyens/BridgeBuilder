@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public bool destinationIsEndPoint;
     int currentPoint = 0;
-    bool hasReached;
 
     private void Start()
 
@@ -38,8 +37,6 @@ public class PlayerController : MonoBehaviour
             }
             else
                 agent.destination = destination.position;
-
-            hasReached = false;
         }
     }
 

@@ -13,8 +13,6 @@ public class GameOverScript : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(playerController.hasStarted + " , " + playerController.destinationIsEndPoint + " , " + playerController.agent.velocity + " , " + gameOver);
-
         if (playerController.hasStarted && playerController.agent.velocity == Vector3.zero)
         {
 
