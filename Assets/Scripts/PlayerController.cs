@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public Transform destination;
     public List<Transform> navCheckPoints; // Checkpoints the player has to pass through to reach the end goal
+    public string blockTag = "Block"; // The tag the moveable blocks use
 
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public bool destinationIsEndPoint;
@@ -89,6 +90,25 @@ public class PlayerController : MonoBehaviour
         if (Vector3.Distance(transform.position, agent.destination) < 0.6f)
             return true;
         return false;
+    }
+
+
+    // methods for player checking
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Block"))
+        {
+            other.gameObject.GetComponent<BlockScript>().hasPlayerOnTop = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Block"))
+        {
+            other.gameObject.GetComponent<BlockScript>().hasPlayerOnTop = false;
+        }
     }
 
 }

@@ -20,6 +20,8 @@ public class BlockScript : MonoBehaviour
 
     public List<Vector3> snapDistances;
 
+    public bool hasPlayerOnTop;
+
 
     Vector3 destination;
     Vector3 originalPos;
