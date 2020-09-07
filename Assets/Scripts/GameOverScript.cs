@@ -11,6 +11,11 @@ public class GameOverScript : MonoBehaviour
     bool gameOver = false;
     bool gameWin = false;
 
+    private void Awake()
+    {
+        Time.timeScale = 1;
+    }
+
     private void Update()
     {
         if (playerController.hasStarted && playerController.agent.velocity == Vector3.zero)
@@ -30,6 +35,13 @@ public class GameOverScript : MonoBehaviour
             }
         }
     }
+
+    public void LoadNextLevel()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     public void RestartGame()
     {
         // Reset the time and reload the scene
