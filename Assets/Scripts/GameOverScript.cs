@@ -15,8 +15,6 @@ public class GameOverScript : MonoBehaviour
     {
         if (playerController.hasStarted && playerController.agent.velocity == Vector3.zero)
         {
-
-            Debug.Log("CHECKING FOR LOSS");
             StartCoroutine(CheckForLoss());
             if (gameOver)
             {
@@ -43,7 +41,7 @@ public class GameOverScript : MonoBehaviour
     IEnumerator CheckForLoss()
     {
         yield return new WaitForSeconds(0.5f);
-        Debug.Log(playerController.hasStarted + " , " + playerController.destinationIsEndPoint + " , " + playerController.agent.velocity + " , " + gameOver);
+        // Debug.Log(playerController.hasStarted + " , " + playerController.destinationIsEndPoint + " , " + playerController.agent.velocity + " , " + gameOver);
         if (playerController.HasReachedDestination() && playerController.hasStarted && playerController.destinationIsEndPoint && playerController.agent.velocity == Vector3.zero && !gameOver)
         {
             gameWin = true;
