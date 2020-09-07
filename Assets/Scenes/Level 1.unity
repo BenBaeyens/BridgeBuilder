@@ -899,6 +899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultMaterial: {fileID: 2100000, guid: 5a74a1932da618c42bea9b8bfb11a63e, type: 2}
   selectedMaterial: {fileID: 2100000, guid: ba59833bf4c5e7e41aea8aed18dfc968, type: 2}
+  unmovableBlockMaterial: {fileID: 2100000, guid: 6635f56c1fadedb4ab45b8bb830de257, type: 2}
   blockTag: Block
   isMovingObject: 0
 --- !u!114 &417961000
