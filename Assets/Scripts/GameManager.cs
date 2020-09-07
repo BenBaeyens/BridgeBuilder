@@ -108,7 +108,6 @@ public class GameManager : MonoBehaviour
             {
                 // Can be changed by lastselectedobjectrenderer
                 lastSelectedObject.GetComponent<Renderer>().material = defaultMaterial;
-                Debug.Log("RESETTING MATERIAL");
                 lastSelectedObject = null;
             }
             else if (isMovingObject)
