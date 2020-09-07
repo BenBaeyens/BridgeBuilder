@@ -14,11 +14,13 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public bool destinationIsEndPoint;
     int currentPoint = 0;
+    BlockScript[] moveableBlocks;
 
     private void Start()
 
     {
         agent = GetComponent<NavMeshAgent>();
+        moveableBlocks = GameObject.FindObjectsOfType<BlockScript>();
     }
 
     private void Update()
@@ -100,11 +102,8 @@ public class PlayerController : MonoBehaviour
         Ray ray = new Ray(transform.position, -Vector3.up);
         RaycastHit hit;
 
-        Debug.DrawRay(transform.position, -Vector3.up * 5);
         if (Physics.Raycast(ray, out hit, 2f))
         {
-            // Can be optimised, this runs every frame
-            BlockScript[] moveableBlocks = GameObject.FindObjectsOfType<BlockScript>();
             for (int i = 0; i < moveableBlocks.Length; i++)
             {
                 moveableBlocks[i].hasPlayerOnTop = false;

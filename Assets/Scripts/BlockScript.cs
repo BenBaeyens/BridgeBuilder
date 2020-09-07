@@ -39,6 +39,16 @@ public class BlockScript : MonoBehaviour
 
     private void Update()
     {
+
+        if (hasPlayerOnTop)
+        {
+            GetComponent<Renderer>().material = gameManager.unmovableBlockMaterial;
+        }
+        else
+        {
+            GetComponent<Renderer>().material = gameManager.defaultMaterial;
+        }
+
         if (!HasReachedDestination())
         {
             if (snapDistances.Count > 0 && !gameManager.isMovingObject)
