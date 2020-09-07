@@ -26,6 +26,32 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
 
+        #region InputFunction
+
+        float mouseY = Input.GetAxis("Mouse Y");
+        // If the left mouse button gets clicked on an object, raise it
+        if (Input.GetMouseButton(0) && LastSelectedObjectIsValid() && !camScript.isRotating)
+        {
+            if (!lastSelectedObject.GetComponent<BlockScript>().hasPlayerOnTop)
+            {
+                // Change this to the corresponding script
+                isMovingObject = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            isMovingObject = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        if (isMovingObject && !camScript.isRotating)
+        {
+            lastSelectedObject.GetComponent<BlockScript>().MoveVerticalCall(mouseY);
+        }
+        #endregion
         #region RaycastFunctions
 
         // Set the ray details
@@ -35,7 +61,7 @@ public class GameManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             // First, check if we hit a clickable object
-            if (hit.transform.CompareTag(blockTag) && !camScript.isRotating)
+            if (hit.transform.CompareTag(blockTag) && !camScript.isRotating && !isMovingObject)
             {
                 if (!hit.transform.GetComponent<BlockScript>().hasPlayerOnTop)
                 {
@@ -65,32 +91,6 @@ public class GameManager : MonoBehaviour
             ResetMaterial();
 
         #endregion
-        #region InputFunction
-
-        float mouseY = Input.GetAxis("Mouse Y");
-        // If the left mouse button gets clicked on an object, raise it
-        if (Input.GetMouseButton(0) && LastSelectedObjectIsValid() && !camScript.isRotating)
-        {
-            if (!lastSelectedObject.GetComponent<BlockScript>().hasPlayerOnTop)
-            {
-                // Change this to the corresponding script
-                isMovingObject = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            isMovingObject = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-
-        if (isMovingObject && !camScript.isRotating)
-        {
-            lastSelectedObject.GetComponent<BlockScript>().MoveVerticalCall(mouseY);
-        }
-        #endregion
 
     }
 
@@ -99,8 +99,13 @@ public class GameManager : MonoBehaviour
     {
         if (LastSelectedObjectIsValid() && !isMovingObject)
         {
+            // Can be changed by lastselectedobjectrenderer
             lastSelectedObject.GetComponent<Renderer>().material = defaultMaterial;
             lastSelectedObject = null;
+        }
+        else if (isMovingObject)
+        {
+            lastSelectedObject.GetComponent<Renderer>().material = selectedMaterial;
         }
     }
 
