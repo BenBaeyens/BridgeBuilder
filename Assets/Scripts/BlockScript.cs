@@ -25,6 +25,8 @@ public class BlockScript : MonoBehaviour
     Vector3 originalPos;
     GameManager gameManager;
 
+    public bool hasPlayerOnTop; // Set externally by player script
+
 
     void Start()
     {

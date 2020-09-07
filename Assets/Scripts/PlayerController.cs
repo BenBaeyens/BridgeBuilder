@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public Transform destination;
     public List<Transform> navCheckPoints; // Checkpoints the player has to pass through to reach the end goal
+    public string MoveableBlockTag = "Block"; // The tag the blocks use
 
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public bool destinationIsEndPoint;
@@ -38,6 +39,8 @@ public class PlayerController : MonoBehaviour
             else
                 agent.destination = destination.position;
         }
+
+        OnPlatformCheck();
     }
 
     public void StartPathFind()
@@ -89,6 +92,30 @@ public class PlayerController : MonoBehaviour
         if (Vector3.Distance(transform.position, agent.destination) < 0.6f)
             return true;
         return false;
+    }
+
+    // Check if the player is on a platform.
+    void OnPlatformCheck()
+    {
+        Ray ray = new Ray(transform.position, -Vector3.up);
+        RaycastHit hit;
+
+        Debug.DrawRay(transform.position, -Vector3.up * 5);
+        if (Physics.Raycast(ray, out hit, 2f))
+        {
+            // Can be optimised, this runs every frame
+            BlockScript[] moveableBlocks = GameObject.FindObjectsOfType<BlockScript>();
+            for (int i = 0; i < moveableBlocks.Length; i++)
+            {
+                moveableBlocks[i].hasPlayerOnTop = false;
+            }
+
+            if (hit.transform.CompareTag(MoveableBlockTag))
+            {
+                hit.transform.GetComponent<BlockScript>().hasPlayerOnTop = true;
+            }
+
+        }
     }
 
 }
