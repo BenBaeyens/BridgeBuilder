@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
         }
 
-        if (isMovingObject && !camScript.isRotating)
+        if (isMovingObject && !camScript.isRotating && !lastSelectedObject.GetComponent<BlockScript>().hasPlayerOnTop)
         {
             lastSelectedObject.GetComponent<BlockScript>().MoveVerticalCall(mouseY);
         }
@@ -97,15 +97,24 @@ public class GameManager : MonoBehaviour
     // Reset the material to its original color when the gameobject is no longer selected
     void ResetMaterial()
     {
-        if (LastSelectedObjectIsValid() && !isMovingObject)
+        if (LastSelectedObjectIsValid())
         {
-            // Can be changed by lastselectedobjectrenderer
-            lastSelectedObject.GetComponent<Renderer>().material = defaultMaterial;
-            lastSelectedObject = null;
-        }
-        else if (isMovingObject)
-        {
-            lastSelectedObject.GetComponent<Renderer>().material = selectedMaterial;
+            if (lastSelectedObject.GetComponent<BlockScript>().hasPlayerOnTop)
+            {
+                isMovingObject = false;
+            }
+
+            else if (!isMovingObject)
+            {
+                // Can be changed by lastselectedobjectrenderer
+                lastSelectedObject.GetComponent<Renderer>().material = defaultMaterial;
+                Debug.Log("RESETTING MATERIAL");
+                lastSelectedObject = null;
+            }
+            else if (isMovingObject)
+            {
+                lastSelectedObject.GetComponent<Renderer>().material = selectedMaterial;
+            }
         }
     }
 

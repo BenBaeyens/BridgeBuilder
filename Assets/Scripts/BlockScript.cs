@@ -44,10 +44,6 @@ public class BlockScript : MonoBehaviour
         {
             GetComponent<Renderer>().material = gameManager.unmovableBlockMaterial;
         }
-        else
-        {
-            GetComponent<Renderer>().material = gameManager.defaultMaterial;
-        }
 
         if (!HasReachedDestination())
         {
