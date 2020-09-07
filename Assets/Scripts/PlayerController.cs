@@ -39,7 +39,10 @@ public class PlayerController : MonoBehaviour
                 currentPoint++;
             }
             else
+            {
+                destinationIsEndPoint = true;
                 agent.destination = destination.position;
+            }
         }
 
         OnPlatformCheck();
