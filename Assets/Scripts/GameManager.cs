@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public string blockTag = "Block"; // The tag to compare with
 
     // PRIVATE VARIABLES
-    GameObject lastSelectedObject;
+    [HideInInspector] public GameObject lastSelectedObject;
     Renderer lastSelectedObjectRenderer;
     BlockScript lastSelectedBlockScript;
 
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Reset the material to its original color when the gameobject is no longer selected
-    void ResetMaterial()
+    public void ResetMaterial()
     {
         if (LastSelectedObjectIsValid())
         {
