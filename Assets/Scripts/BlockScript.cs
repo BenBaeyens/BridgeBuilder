@@ -40,8 +40,11 @@ public class BlockScript : MonoBehaviour
     float destinationY;
     float destinationZ;
 
+    Renderer thisRenderer;
+
     void Start()
     {
+        thisRenderer = GetComponent<Renderer>();
         originalPos = transform.position;
         destination = transform.position + new Vector3(Random.Range(-randomOffsetMargin.x, randomOffsetMargin.x), Random.Range(-randomOffsetMargin.y, randomOffsetMargin.y), Random.Range(-randomOffsetMargin.z, randomOffsetMargin.z)); // Apply the random offset
         transform.position += startDistanceOffset; // Set the block position down by the offset
@@ -54,17 +57,17 @@ public class BlockScript : MonoBehaviour
 
         if (hasPlayerOnTop)
         {
-            GetComponent<Renderer>().material = gameManager.unmovableBlockMaterial;
+            thisRenderer.material = gameManager.unmovableBlockMaterial;
         }
         else
         {
             if (gameManager.lastSelectedObject == gameObject)
             {
-                GetComponent<Renderer>().material = gameManager.selectedMaterial;
+                thisRenderer.material = gameManager.selectedMaterial;
             }
             else
             {
-                GetComponent<Renderer>().material = gameManager.defaultMaterial;
+                thisRenderer.material = gameManager.defaultMaterial;
             }
         }
 
