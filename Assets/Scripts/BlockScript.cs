@@ -18,14 +18,14 @@ public class BlockScript : MonoBehaviour
     public float snapCheckDistance = 0.1f;
 
 
-    public enum Direction
+    public enum MoveDirection
     {
         x,
         y,
         z
     }
 
-    public Direction direction = Direction.y;
+    public MoveDirection direction = MoveDirection.y;
 
     public List<Vector3> snapDistances;
 
@@ -99,21 +99,21 @@ public class BlockScript : MonoBehaviour
         // INPUTS ARE NOT RELATIVE
         switch (direction)
         {
-            case Direction.x:
+            case MoveDirection.x:
                 destination += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
                 destinationX = Mathf.Clamp(destination.x, minLimit.x, maxLimit.x);
                 destinationY = transform.position.y;
                 destinationZ = transform.position.z;
                 break;
 
-            case Direction.y:
+            case MoveDirection.y:
                 destination += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
                 destinationX = transform.position.x;
                 destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
                 destinationZ = transform.position.z;
                 break;
 
-            case Direction.z:
+            case MoveDirection.z:
                 destination += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
                 destinationX = transform.position.x;
                 destinationY = transform.position.y;
