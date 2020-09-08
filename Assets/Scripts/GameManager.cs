@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
         #region InputFunction
 
         float mouseY = Input.GetAxis("Mouse Y");
+        float mouseX = Input.GetAxis("Mouse X");
         // If the left mouse button gets clicked on an object, raise it
         if (Input.GetMouseButton(0) && LastSelectedObjectIsValid() && !camScript.isRotating)
         {
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
 
         if (isMovingObject && !camScript.isRotating && !lastSelectedBlockScript.hasPlayerOnTop)
         {
-            lastSelectedBlockScript.MoveVerticalCall(mouseY);
+            lastSelectedBlockScript.MoveCall(mouseX, mouseY);
         }
         #endregion
         #region RaycastFunctions

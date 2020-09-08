@@ -18,6 +18,15 @@ public class BlockScript : MonoBehaviour
     public float snapCheckDistance = 0.1f;
 
 
+    public enum Direction
+    {
+        x,
+        y,
+        z
+    }
+
+    public Direction direction = Direction.y;
+
     public List<Vector3> snapDistances;
 
 
@@ -27,6 +36,9 @@ public class BlockScript : MonoBehaviour
 
     public bool hasPlayerOnTop; // Set externally by player script
 
+    float destinationX;
+    float destinationY;
+    float destinationZ;
 
     void Start()
     {
@@ -82,15 +94,32 @@ public class BlockScript : MonoBehaviour
         return false;
     }
 
-    public void MoveVerticalCall(float mouseInput)
+    public void MoveCall(float mouseInputX, float mouseInputY)
     {
+        // INPUTS ARE NOT RELATIVE
+        switch (direction)
+        {
+            case Direction.x:
+                destination += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
+                destinationX = Mathf.Clamp(destination.x, minLimit.x, maxLimit.x);
+                destinationY = transform.position.y;
+                destinationZ = transform.position.z;
+                break;
 
-        // Check this when changing blocks to sideways movement
-        destination += new Vector3(0, moveSpeed * mouseInput * Time.deltaTime, 0);
-        float destinationX = Mathf.Clamp(destination.x, minLimit.x + originalPos.x, maxLimit.x + originalPos.x);
-        float destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
-        float destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
+            case Direction.y:
+                destination += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
+                destinationX = transform.position.x;
+                destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
+                destinationZ = transform.position.z;
+                break;
 
+            case Direction.z:
+                destination += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
+                destinationX = transform.position.x;
+                destinationY = transform.position.y;
+                destinationZ = Mathf.Clamp(destination.z, minLimit.z, maxLimit.z);
+                break;
+        }
         destination = new Vector3(destinationX, destinationY, destinationZ);
     }
 
