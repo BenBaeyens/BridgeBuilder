@@ -100,14 +100,14 @@ public class BlockScript : MonoBehaviour
         switch (direction)
         {
             case Direction.x:
-                destination += new Vector3(moveSpeed * mouseInputY * Time.deltaTime, 0, 0);
-                destinationX = Mathf.Clamp(destination.x, originalPos.x, originalPos.x);
+                destination += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
+                destinationX = Mathf.Clamp(destination.x, minLimit.x, maxLimit.x);
                 destinationY = Mathf.Clamp(destination.y, minLimit.y + originalPos.y, maxLimit.y + originalPos.y);
                 destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
                 break;
 
             case Direction.y:
-                destination += new Vector3(0, moveSpeed * mouseInputX * Time.deltaTime, 0);
+                destination += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
                 destinationX = Mathf.Clamp(destination.x, minLimit.x + originalPos.x, maxLimit.x + originalPos.x);
                 destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
                 destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
@@ -118,6 +118,7 @@ public class BlockScript : MonoBehaviour
                 break;
         }
         destination = new Vector3(destinationX, destinationY, destinationZ);
+        Debug.Log(destination + " //");
     }
 
     // Draw the snap points
