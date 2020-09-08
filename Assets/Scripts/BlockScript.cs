@@ -96,7 +96,7 @@ public class BlockScript : MonoBehaviour
 
     public void MoveCall(float mouseInputX, float mouseInputY)
     {
-
+        // INPUTS ARE NOT RELATIVE
         switch (direction)
         {
             case Direction.x:
@@ -114,7 +114,10 @@ public class BlockScript : MonoBehaviour
                 break;
 
             case Direction.z:
-
+                destination += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
+                destinationX = transform.position.x;
+                destinationY = transform.position.y;
+                destinationZ = Mathf.Clamp(destination.z, minLimit.z, maxLimit.z);
                 break;
         }
         destination = new Vector3(destinationX, destinationY, destinationZ);
