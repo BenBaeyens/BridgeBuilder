@@ -94,6 +94,16 @@ public class BlockScript : MonoBehaviour
         destination = new Vector3(destinationX, destinationY, destinationZ);
     }
 
+    public void MoveHorizontalCall(float mouseInput)
+    {
+        // Check this when changing blocks to sideways movement
+        destination += new Vector3(moveSpeed * mouseInput * Time.deltaTime, 0, 0);
+        float destinationX = Mathf.Clamp(destination.x, originalPos.x, originalPos.x);
+        float destinationY = Mathf.Clamp(destination.y, minLimit.y + originalPos.y, maxLimit.y + originalPos.y);
+        float destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
+
+    }
+
     // Draw the snap points
     private void OnDrawGizmosSelected()
     {

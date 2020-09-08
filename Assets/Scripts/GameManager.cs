@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
         if (isMovingObject && !camScript.isRotating && !lastSelectedBlockScript.hasPlayerOnTop)
         {
-            lastSelectedBlockScript.MoveVerticalCall(mouseY);
+            lastSelectedBlockScript.MoveHorizontalCall(mouseY);
         }
         #endregion
         #region RaycastFunctions
