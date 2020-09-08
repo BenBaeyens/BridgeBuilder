@@ -36,6 +36,9 @@ public class BlockScript : MonoBehaviour
 
     public bool hasPlayerOnTop; // Set externally by player script
 
+    float destinationX;
+    float destinationY;
+    float destinationZ;
 
     void Start()
     {
@@ -94,20 +97,27 @@ public class BlockScript : MonoBehaviour
     public void MoveCall(float mouseInput)
     {
 
-        // Check this when changing blocks to sideways movement
-        destination += new Vector3(0, moveSpeed * mouseInput * Time.deltaTime, 0);
-        float destinationX = Mathf.Clamp(destination.x, minLimit.x + originalPos.x, maxLimit.x + originalPos.x);
-        float destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
-        float destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
+        switch (direction)
+        {
+            case Direction.x:
+                destination += new Vector3(0, moveSpeed * mouseInput * Time.deltaTime, 0);
+                destinationX = Mathf.Clamp(destination.x, minLimit.x + originalPos.x, maxLimit.x + originalPos.x);
+                destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
+                destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
+                break;
 
+            case Direction.y:
+                destination += new Vector3(moveSpeed * mouseInput * Time.deltaTime, 0, 0);
+                destinationX = Mathf.Clamp(destination.x, originalPos.x, originalPos.x);
+                destinationY = Mathf.Clamp(destination.y, minLimit.y + originalPos.y, maxLimit.y + originalPos.y);
+                destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
+                break;
+
+            case Direction.z:
+
+                break;
+        }
         destination = new Vector3(destinationX, destinationY, destinationZ);
-
-        // Check this when changing blocks to sideways movement
-        destination += new Vector3(moveSpeed * mouseInput * Time.deltaTime, 0, 0);
-        float destinationX = Mathf.Clamp(destination.x, originalPos.x, originalPos.x);
-        float destinationY = Mathf.Clamp(destination.y, minLimit.y + originalPos.y, maxLimit.y + originalPos.y);
-        float destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
-
     }
 
     // Draw the snap points
