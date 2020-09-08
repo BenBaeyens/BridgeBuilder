@@ -14,6 +14,7 @@ public class GameOverScript : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 1;
+        playerController = GameObject.FindObjectOfType<PlayerController>();
     }
 
     private void Update()

@@ -120,4 +120,10 @@ public class GameManager : MonoBehaviour
             return true;
         return false;
     }
+
+
+    public void StartGame()
+    {
+        GameObject.FindObjectOfType<PlayerController>().StartPathFind();
+    }
 }

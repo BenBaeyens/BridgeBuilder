@@ -512,10 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasStarted: 0
   destination: {fileID: 0}
-  navCheckPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  navCheckPoints: []
+  MoveableBlockTag: Block
   agent: {fileID: 0}
   destinationIsEndPoint: 0
