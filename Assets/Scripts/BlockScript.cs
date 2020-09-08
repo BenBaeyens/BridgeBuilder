@@ -83,6 +83,7 @@ public class BlockScript : MonoBehaviour
         destination = new Vector3(destinationX, destinationY, destinationZ);
     }
 
+    // Draw the snap points
     private void OnDrawGizmosSelected()
     {
         if (snapDistances.Count > 0)
