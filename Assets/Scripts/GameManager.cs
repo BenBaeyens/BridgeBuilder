@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     // PRIVATE VARIABLES
     GameObject lastSelectedObject;
     Renderer lastSelectedObjectRenderer;
+    BlockScript lastSelectedBlockScript;
+
     RaycastHit hit;
     Ray ray;
     CameraRotate camScript; // The camera rotation script
@@ -32,7 +34,7 @@ public class GameManager : MonoBehaviour
         // If the left mouse button gets clicked on an object, raise it
         if (Input.GetMouseButton(0) && LastSelectedObjectIsValid() && !camScript.isRotating)
         {
-            if (!lastSelectedObject.GetComponent<BlockScript>().hasPlayerOnTop)
+            if (!lastSelectedBlockScript.hasPlayerOnTop)
             {
                 // Change this to the corresponding script
                 isMovingObject = true;
@@ -47,9 +49,9 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
         }
 
-        if (isMovingObject && !camScript.isRotating && !lastSelectedObject.GetComponent<BlockScript>().hasPlayerOnTop)
+        if (isMovingObject && !camScript.isRotating && !lastSelectedBlockScript.hasPlayerOnTop)
         {
-            lastSelectedObject.GetComponent<BlockScript>().MoveVerticalCall(mouseY);
+            lastSelectedBlockScript.MoveVerticalCall(mouseY);
         }
         #endregion
         #region RaycastFunctions
@@ -63,26 +65,19 @@ public class GameManager : MonoBehaviour
             // First, check if we hit a clickable object
             if (hit.transform.CompareTag(blockTag) && !camScript.isRotating && !isMovingObject)
             {
+                // Check if the we have selected an object before and change its material
+                ResetMaterial();
+
+                // Set the variables for the newly selected component
+                lastSelectedObject = hit.transform.gameObject;
+                lastSelectedObjectRenderer = hit.transform.GetComponent<Renderer>();
+                lastSelectedBlockScript = hit.transform.GetComponent<BlockScript>();
+
                 if (!hit.transform.GetComponent<BlockScript>().hasPlayerOnTop)
-                {
-                    // Check if the we have selected an object before and change its material
-                    ResetMaterial();
-
-                    // Set the variables for the newly selected component
-                    lastSelectedObject = hit.transform.gameObject;
-                    lastSelectedObjectRenderer = hit.transform.GetComponent<Renderer>();
-
-                    // Set the material to selected
                     lastSelectedObjectRenderer.material = selectedMaterial;
-                }
                 else
-                {
-                    ResetMaterial();
-                    lastSelectedObject = hit.transform.gameObject;
-                    lastSelectedObjectRenderer = hit.transform.GetComponent<Renderer>();
-
                     lastSelectedObjectRenderer.material = unmovableBlockMaterial;
-                }
+
             }
             else
                 ResetMaterial();
@@ -99,7 +94,7 @@ public class GameManager : MonoBehaviour
     {
         if (LastSelectedObjectIsValid())
         {
-            if (lastSelectedObject.GetComponent<BlockScript>().hasPlayerOnTop)
+            if (lastSelectedBlockScript.hasPlayerOnTop)
             {
                 isMovingObject = false;
             }
@@ -107,12 +102,12 @@ public class GameManager : MonoBehaviour
             else if (!isMovingObject)
             {
                 // Can be changed by lastselectedobjectrenderer
-                lastSelectedObject.GetComponent<Renderer>().material = defaultMaterial;
+                lastSelectedObjectRenderer.material = defaultMaterial;
                 lastSelectedObject = null;
             }
             else if (isMovingObject)
             {
-                lastSelectedObject.GetComponent<Renderer>().material = selectedMaterial;
+                lastSelectedObjectRenderer.material = selectedMaterial;
             }
         }
     }
