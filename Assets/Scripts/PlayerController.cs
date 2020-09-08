@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         moveableBlocks = GameObject.FindObjectsOfType<BlockScript>();
+        destination = GameObject.FindObjectOfType<LocalNavMeshBuilder>().transform;
     }
 
     private void Update()
