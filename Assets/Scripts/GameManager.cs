@@ -122,6 +122,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+    // Call to the PlayerController to start the game from the UI prefab
     public void StartGame()
     {
         GameObject.FindObjectOfType<PlayerController>().StartPathFind();

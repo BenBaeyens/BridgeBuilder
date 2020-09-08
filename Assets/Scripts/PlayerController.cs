@@ -22,6 +22,12 @@ public class PlayerController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         moveableBlocks = GameObject.FindObjectsOfType<BlockScript>();
         destination = GameObject.FindObjectOfType<LocalNavMeshBuilder>().transform;
+        GameObject[] tempNavCheckPoints = GameObject.FindGameObjectsWithTag("NavMarker");
+        navCheckPoints.Clear();
+        for (int i = 0; i < tempNavCheckPoints.Length; i++)
+        {
+            navCheckPoints.Add(tempNavCheckPoints[i].transform);
+        }
     }
 
     private void Update()
@@ -69,6 +75,16 @@ public class PlayerController : MonoBehaviour
     {
         if (navCheckPoints.Count >= 1)
         {
+            // Find navPoints
+            navCheckPoints.Clear();
+            destination = GameObject.FindObjectOfType<LocalNavMeshBuilder>().transform;
+
+            GameObject[] tempNavCheckPoints = GameObject.FindGameObjectsWithTag("NavMarker");
+            for (int i = 0; i < tempNavCheckPoints.Length; i++)
+            {
+                navCheckPoints.Add(tempNavCheckPoints[i].transform);
+            }
+
             for (int i = 0; i < navCheckPoints.Count; i++)
             {
                 Gizmos.color = Color.red;
