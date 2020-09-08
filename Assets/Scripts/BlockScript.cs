@@ -18,6 +18,15 @@ public class BlockScript : MonoBehaviour
     public float snapCheckDistance = 0.1f;
 
 
+    public enum Direction
+    {
+        x,
+        y,
+        z
+    }
+
+    public Direction direction = Direction.y;
+
     public List<Vector3> snapDistances;
 
 
@@ -82,7 +91,7 @@ public class BlockScript : MonoBehaviour
         return false;
     }
 
-    public void MoveVerticalCall(float mouseInput)
+    public void MoveCall(float mouseInput)
     {
 
         // Check this when changing blocks to sideways movement
@@ -92,10 +101,7 @@ public class BlockScript : MonoBehaviour
         float destinationZ = Mathf.Clamp(destination.z, minLimit.z + originalPos.z, maxLimit.z + originalPos.z);
 
         destination = new Vector3(destinationX, destinationY, destinationZ);
-    }
 
-    public void MoveHorizontalCall(float mouseInput)
-    {
         // Check this when changing blocks to sideways movement
         destination += new Vector3(moveSpeed * mouseInput * Time.deltaTime, 0, 0);
         float destinationX = Mathf.Clamp(destination.x, originalPos.x, originalPos.x);
