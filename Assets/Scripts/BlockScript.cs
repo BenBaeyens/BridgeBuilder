@@ -54,12 +54,11 @@ public class BlockScript : MonoBehaviour
         destination = transform.position + new Vector3(Random.Range(-randomOffsetMargin.x, randomOffsetMargin.x), Random.Range(-randomOffsetMargin.y, randomOffsetMargin.y), Random.Range(-randomOffsetMargin.z, randomOffsetMargin.z)); // Apply the random offset
         transform.position += startDistanceOffset; // Set the block position down by the offset
         gameManager = GameObject.FindObjectOfType<GameManager>(); // The game manager
-
+        startTime = Time.time;
     }
 
     private void Update()
     {
-
         if (hasPlayerOnTop)
         {
             thisRenderer.material = gameManager.unmovableBlockMaterial;
@@ -92,14 +91,10 @@ public class BlockScript : MonoBehaviour
         }
         if (isLerpingMaterials)
         {
-            t = (Time.time - startTime) * 0.1f;
-            if (thisRenderer.material.color != targetMaterial.color)
+            t = (Time.time - startTime) * 1f;
+            thisRenderer.material.Lerp(originalMat, targetMaterial, t);
+            if (t == 1f)
             {
-                thisRenderer.material.Lerp(originalMat, targetMaterial, t);
-            }
-            else if (thisRenderer.material.color == targetMaterial.color)
-            {
-                isLerpingMaterials = false;
                 thisRenderer.material = targetMaterial;
             }
         }
@@ -162,10 +157,10 @@ public class BlockScript : MonoBehaviour
     {
         if (!isLerpingMaterials)
         {
+            isLerpingMaterials = true;
             startTime = Time.time;
             originalMat = thisRenderer.material;
             targetMaterial = targetMat;
-            isLerpingMaterials = true;
         }
     }
 
