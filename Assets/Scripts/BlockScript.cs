@@ -91,11 +91,12 @@ public class BlockScript : MonoBehaviour
         }
         if (isLerpingMaterials)
         {
-            t = (Time.time - startTime) * 1f;
+            t = (Time.time - startTime) * 10f;
             thisRenderer.material.Lerp(originalMat, targetMaterial, t);
-            if (t == 1f)
+            if (t >= 1f)
             {
                 thisRenderer.material = targetMaterial;
+                isLerpingMaterials = false;
             }
         }
 
@@ -155,7 +156,7 @@ public class BlockScript : MonoBehaviour
 
     public void MaterialLerp(Material targetMat)
     {
-        if (!isLerpingMaterials)
+        if (!isLerpingMaterials && targetMat != targetMaterial)
         {
             isLerpingMaterials = true;
             startTime = Time.time;

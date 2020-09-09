@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     CameraRotate camScript; // The camera rotation script
     Material lerpMaterial; // The material that lerps between the two states
     [HideInInspector] public bool isMovingObject;
+    bool hasSelectedObject;
 
     private void Start()
     {
@@ -61,7 +62,7 @@ public class GameManager : MonoBehaviour
 
         // Set the ray details
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
+        hasSelectedObject = false;
         // Execute the physics raycast
         if (Physics.Raycast(ray, out hit))
         {
@@ -77,10 +78,15 @@ public class GameManager : MonoBehaviour
                 lastSelectedBlockScript = hit.transform.GetComponent<BlockScript>();
 
                 if (!hit.transform.GetComponent<BlockScript>().hasPlayerOnTop)
+                {
+                    hasSelectedObject = true;
                     lastSelectedBlockScript.MaterialLerp(selectedMaterial);
+                }
                 else
+                {
+                    hasSelectedObject = false;
                     lastSelectedBlockScript.MaterialLerp(unmovableBlockMaterial);
-
+                }
             }
             else
                 ResetMaterial();
@@ -102,13 +108,13 @@ public class GameManager : MonoBehaviour
                 isMovingObject = false;
             }
 
-            else if (!isMovingObject)
+            else if (!isMovingObject && !hasSelectedObject)
             {
                 // Can be changed by lastselectedobjectrenderer
                 lastSelectedBlockScript.MaterialLerp(defaultMaterial);
                 lastSelectedObject = null;
             }
-            else if (isMovingObject)
+            else if (isMovingObject || hasSelectedObject)
             {
                 lastSelectedBlockScript.MaterialLerp(selectedMaterial);
             }
