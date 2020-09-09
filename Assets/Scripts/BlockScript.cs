@@ -42,10 +42,10 @@ public class BlockScript : MonoBehaviour
     float destinationZ;
 
     Renderer thisRenderer;
-    Material tempMat;
-    Material targetMat;
+    Material targetMaterial;
     Material originalMat;
-    float lerpTime;
+    float t;
+    float startTime;
 
     void Start()
     {
@@ -90,16 +90,18 @@ public class BlockScript : MonoBehaviour
             }
             transform.position = Vector3.Lerp(transform.position, destination, Time.deltaTime * lerpSpeed);
         }
-
-        if (isLerpingMaterials && tempMat.color != targetMat.color)
+        if (isLerpingMaterials)
         {
-            thisRenderer.material.Lerp(originalMat, targetMat, Time.deltaTime / lerpTime * 0.1f);
-            lerpTime *= Time.deltaTime;
-        }
-        else if (thisRenderer.material.color == targetMat.color)
-        {
-            isLerpingMaterials = false;
-            thisRenderer.material = targetMat;
+            t = (Time.time - startTime) * 0.1f;
+            if (thisRenderer.material.color != targetMaterial.color)
+            {
+                thisRenderer.material.Lerp(originalMat, targetMaterial, t);
+            }
+            else if (thisRenderer.material.color == targetMaterial.color)
+            {
+                isLerpingMaterials = false;
+                thisRenderer.material = targetMaterial;
+            }
         }
 
     }
@@ -158,10 +160,13 @@ public class BlockScript : MonoBehaviour
 
     public void MaterialLerp(Material targetMat)
     {
-        lerpTime = 0;
-        originalMat = thisRenderer.material;
-        this.targetMat = targetMat;
-        isLerpingMaterials = true;
+        if (!isLerpingMaterials)
+        {
+            startTime = Time.time;
+            originalMat = thisRenderer.material;
+            targetMaterial = targetMat;
+            isLerpingMaterials = true;
+        }
     }
 
     /* FUN TESTING
