@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
         // Set the ray details
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        hasSelectedObject = false;
+
         // Execute the physics raycast
         if (Physics.Raycast(ray, out hit))
         {
