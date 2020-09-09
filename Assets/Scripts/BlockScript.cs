@@ -35,12 +35,17 @@ public class BlockScript : MonoBehaviour
     GameManager gameManager;
 
     public bool hasPlayerOnTop; // Set externally by player script
+    public bool isLerpingMaterials; // Temporary in-between material used for lerping
 
     float destinationX;
     float destinationY;
     float destinationZ;
 
     Renderer thisRenderer;
+    Material tempMat;
+    Material targetMat;
+    Material originalMat;
+    float lerpTime;
 
     void Start()
     {
@@ -85,6 +90,18 @@ public class BlockScript : MonoBehaviour
             }
             transform.position = Vector3.Lerp(transform.position, destination, Time.deltaTime * lerpSpeed);
         }
+
+        if (isLerpingMaterials && tempMat.color != targetMat.color)
+        {
+            thisRenderer.material.Lerp(originalMat, targetMat, Time.deltaTime / lerpTime * 0.1f);
+            lerpTime *= Time.deltaTime;
+        }
+        else if (thisRenderer.material.color == targetMat.color)
+        {
+            isLerpingMaterials = false;
+            thisRenderer.material = targetMat;
+        }
+
     }
 
     public bool HasReachedDestination()
@@ -137,6 +154,14 @@ public class BlockScript : MonoBehaviour
                 Gizmos.DrawSphere(snapDistances[i], 0.05f);
             }
         }
+    }
+
+    public void MaterialLerp(Material targetMat)
+    {
+        lerpTime = 0;
+        originalMat = thisRenderer.material;
+        this.targetMat = targetMat;
+        isLerpingMaterials = true;
     }
 
     /* FUN TESTING

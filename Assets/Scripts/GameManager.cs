@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public Material selectedMaterial; // The material the gameobject will have when selected
     public Material unmovableBlockMaterial; // The material when the player is on top of it
     public string blockTag = "Block"; // The tag to compare with
+    public float materialLerpTime = 0.1f;
 
     // PRIVATE VARIABLES
     [HideInInspector] public GameObject lastSelectedObject;
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     RaycastHit hit;
     Ray ray;
     CameraRotate camScript; // The camera rotation script
+    Material lerpMaterial; // The material that lerps between the two states
     [HideInInspector] public bool isMovingObject;
 
     private void Start()
@@ -75,9 +77,9 @@ public class GameManager : MonoBehaviour
                 lastSelectedBlockScript = hit.transform.GetComponent<BlockScript>();
 
                 if (!hit.transform.GetComponent<BlockScript>().hasPlayerOnTop)
-                    lastSelectedObjectRenderer.material = selectedMaterial;
+                    lastSelectedBlockScript.MaterialLerp(selectedMaterial);
                 else
-                    lastSelectedObjectRenderer.material = unmovableBlockMaterial;
+                    lastSelectedBlockScript.MaterialLerp(unmovableBlockMaterial);
 
             }
             else
@@ -103,12 +105,12 @@ public class GameManager : MonoBehaviour
             else if (!isMovingObject)
             {
                 // Can be changed by lastselectedobjectrenderer
-                lastSelectedObjectRenderer.material = defaultMaterial;
+                lastSelectedBlockScript.MaterialLerp(defaultMaterial);
                 lastSelectedObject = null;
             }
             else if (isMovingObject)
             {
-                lastSelectedObjectRenderer.material = selectedMaterial;
+                lastSelectedBlockScript.MaterialLerp(selectedMaterial);
             }
         }
     }
