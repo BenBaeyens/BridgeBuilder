@@ -143,7 +143,7 @@ public class BlockScript : MonoBehaviour
                 break;
 
             case MoveDirection.z:
-                if ((mouseInputX >= 0 && canMoveForward) || (mouseInputX <= 0 && canMoveBackward))
+                if ((mouseInputX >= 0 && canMoveBackward) || (mouseInputX <= 0 && canMoveForward))
                 {
                     destination += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
                     destinationX = transform.position.x;
@@ -209,11 +209,14 @@ public class BlockScript : MonoBehaviour
                 break;
 
             case MoveDirection.z:
+                // INVERTED FOR PERSPECTIVE VIEW
                 startingPointFront += new Vector3(0, 0, transform.localScale.z / 2);
                 startingPointBack -= new Vector3(0, 0, transform.localScale.z / 2);
                 frontRay = new Ray(startingPointFront, transform.forward);
                 backRay = new Ray(startingPointBack, -transform.forward);
                 Debug.DrawRay(startingPointFront, transform.forward);
+                Debug.DrawRay(startingPointBack, -transform.forward);
+
 
                 break;
         }
