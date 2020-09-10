@@ -59,6 +59,9 @@ public class BlockScript : MonoBehaviour
 
     private void Update()
     {
+
+        CheckForCollisions();
+
         if (hasPlayerOnTop)
         {
             MaterialLerp(gameManager.unmovableBlockMaterial);
