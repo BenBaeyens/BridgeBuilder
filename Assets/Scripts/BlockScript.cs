@@ -171,23 +171,36 @@ public class BlockScript : MonoBehaviour
         // Calculate starting point
         Vector3 startingPointFront = transform.position;
         Vector3 startingPointBack = transform.position;
+
+        Ray frontRay = new Ray();
+        Ray backRay = new Ray();
+        RaycastHit hit = new RaycastHit();
         switch (direction)
         {
             case MoveDirection.x:
                 startingPointFront += new Vector3(transform.localScale.x / 2, 0, 0);
                 startingPointBack -= new Vector3(transform.localScale.x / 2, 0, 0);
-
+                frontRay = new Ray(startingPointFront, transform.forward * 0.2f);
+                backRay = new Ray(startingPointBack, -transform.forward * 0.2f);
                 break;
             case MoveDirection.y:
                 startingPointFront += new Vector3(0, transform.localScale.y / 2, 0);
                 startingPointBack -= new Vector3(0, transform.localScale.y / 2, 0);
+                frontRay = new Ray(startingPointFront, transform.up * 0.2f);
+                backRay = new Ray(startingPointBack, -transform.up * 0.2f);
                 break;
 
             case MoveDirection.z:
                 startingPointFront += new Vector3(0, 0, transform.localScale.z / 2);
                 startingPointBack -= new Vector3(0, 0, transform.localScale.z / 2);
-
+                frontRay = new Ray(startingPointFront, transform.right * 0.2f);
+                backRay = new Ray(startingPointBack, -transform.right * 0.2f);
                 break;
+        }
+
+        if (Physics.Raycast(frontRay, out hit, 0.2f))
+        {
+            Debug.Log(hit);
         }
     }
 
