@@ -89,11 +89,16 @@ public class GameManager : MonoBehaviour
                 }
             }
             else
+            {
+                hasSelectedObject = false;
                 ResetMaterial();
+            }
         }
         else
+        {
+            hasSelectedObject = false;
             ResetMaterial();
-
+        }
         #endregion
 
     }
