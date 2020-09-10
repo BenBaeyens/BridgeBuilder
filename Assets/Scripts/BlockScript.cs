@@ -119,35 +119,42 @@ public class BlockScript : MonoBehaviour
 
     public void MoveCall(float mouseInputX, float mouseInputY)
     {
-        if ((mouseInputX >= 0 && canMoveForward) || (mouseInputX <= 0 && canMoveBackward) || (mouseInputY >= 0 && canMoveForward) || (mouseInputY <= 0 && canMoveBackward))
+
+        // INPUTS ARE NOT RELATIVE
+        switch (direction)
         {
-            // INPUTS ARE NOT RELATIVE
-            switch (direction)
-            {
-                case MoveDirection.x:
+            case MoveDirection.x:
+                if ((mouseInputX >= 0 && canMoveForward) || (mouseInputX <= 0 && canMoveBackward))
+                {
                     destination += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
                     destinationX = Mathf.Clamp(destination.x, minLimit.x, maxLimit.x);
                     destinationY = transform.position.y;
                     destinationZ = transform.position.z;
-                    break;
-
-                case MoveDirection.y:
+                }
+                break;
+            case MoveDirection.y:
+                if ((mouseInputY >= 0 && canMoveForward) || (mouseInputY <= 0 && canMoveBackward))
+                {
                     destination += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
                     destinationX = transform.position.x;
                     destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
                     destinationZ = transform.position.z;
-                    break;
+                }
+                break;
 
-                case MoveDirection.z:
+            case MoveDirection.z:
+                if ((mouseInputX >= 0 && canMoveForward) || (mouseInputX <= 0 && canMoveBackward))
+                {
                     destination += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
                     destinationX = transform.position.x;
                     destinationY = transform.position.y;
                     destinationZ = Mathf.Clamp(destination.z, minLimit.z, maxLimit.z);
-                    break;
-            }
-            destination = new Vector3(destinationX, destinationY, destinationZ);
+                }
+                break;
         }
+        destination = new Vector3(destinationX, destinationY, destinationZ);
     }
+
 
     // Draw the snap points
     private void OnDrawGizmosSelected()
@@ -177,8 +184,8 @@ public class BlockScript : MonoBehaviour
     public void CheckForCollisions()
     {
         // Calculate starting point
-        Vector3 startingPointFront = transform.position;
-        Vector3 startingPointBack = transform.position;
+        Vector3 startingPointFront = destination;
+        Vector3 startingPointBack = destination;
 
         // Can be optimised
         Ray frontRay = new Ray();
@@ -207,7 +214,7 @@ public class BlockScript : MonoBehaviour
                 break;
         }
 
-        if (Physics.Raycast(frontRay, out hit, 0.2f))
+        if (Physics.Raycast(frontRay, out hit, 0.1f))
         {
             canMoveForward = false;
         }
@@ -216,7 +223,7 @@ public class BlockScript : MonoBehaviour
             canMoveForward = true;
         }
 
-        if (Physics.Raycast(backRay, out hit, 0.2f))
+        if (Physics.Raycast(backRay, out hit, 0.1f))
         {
             canMoveBackward = false;
         }
