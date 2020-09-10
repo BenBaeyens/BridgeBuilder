@@ -1411,6 +1411,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 721070213}
     m_Modifications:
+    - target: {fileID: 3416941489135165871, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: startDistanceOffset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416941489135165871, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: startDistanceOffset.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416941489135165871, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: direction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416941489135165871, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: maxLimit.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416941489135165871, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: minLimit.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416941489135165871, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: maxLimit.z
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6195307412817339036, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
       propertyPath: snapDistances.Array.data[0].y
       value: -4.71

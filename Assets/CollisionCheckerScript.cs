@@ -9,11 +9,12 @@ public class CollisionCheckerScript : MonoBehaviour
 
     private void Start()
     {
-        Physics.IgnoreCollision(transform.parent.GetChild(0).GetComponent<Collider>(), GetComponent<Collider>(), true);
+        //Physics.IgnoreCollision(transform.parent.GetChild(0).GetComponent<Collider>(), GetComponent<Collider>(), true);
     }
 
     private void OnCollisionEnter(Collision other)
     {
+        Debug.Log("COLLISION");
         if (!other.transform.CompareTag("Block"))
             isInCollision = true;
     }

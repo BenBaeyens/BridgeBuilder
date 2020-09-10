@@ -65,7 +65,7 @@ public class BlockScript : MonoBehaviour
     private void Update()
     {
 
-        CheckForCollisions();
+        //CheckForCollisions();
 
         if (hasPlayerOnTop)
         {
@@ -127,7 +127,7 @@ public class BlockScript : MonoBehaviour
         switch (direction)
         {
             case MoveDirection.x:
-                if ((mouseInputX >= 0 && canMoveForward) || (mouseInputX <= 0 && canMoveBackward))
+                if (!destinationCheckerScript.isInCollision)
                 {
                     destination.position += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
                     destinationX = Mathf.Clamp(destination.position.x, minLimit.x, maxLimit.x);
@@ -136,7 +136,7 @@ public class BlockScript : MonoBehaviour
                 }
                 break;
             case MoveDirection.y:
-                if ((mouseInputY >= 0 && canMoveForward) || (mouseInputY <= 0 && canMoveBackward))
+                if (!destinationCheckerScript.isInCollision)
                 {
                     destination.position += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
                     destinationX = transform.position.x;
@@ -146,7 +146,7 @@ public class BlockScript : MonoBehaviour
                 break;
 
             case MoveDirection.z:
-                if ((mouseInputX >= 0 && canMoveBackward) || (mouseInputX <= 0 && canMoveForward))
+                if (!destinationCheckerScript.isInCollision)
                 {
                     destination.position += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
                     destinationX = transform.position.x;
@@ -184,64 +184,53 @@ public class BlockScript : MonoBehaviour
     }
 
     // Check for collisions
-    public void CheckForCollisions()
-    {
-        // Calculate starting point
-        Vector3 startingPointFront = destination.position;
-        Vector3 startingPointBack = destination.position;
+    // public void CheckForCollisions()
+    // {
 
-        // Can be optimised
-        Ray frontRay = new Ray();
-        Ray backRay = new Ray();
-        RaycastHit hit = new RaycastHit();
-        switch (direction)
-        {
-            case MoveDirection.x:
-                startingPointFront += new Vector3(transform.localScale.x / 2, 0, 0);
-                startingPointBack -= new Vector3(transform.localScale.x / 2, 0, 0);
-                frontRay = new Ray(startingPointFront, transform.right);
-                backRay = new Ray(startingPointBack, -transform.right);
-                Debug.DrawRay(startingPointFront, transform.right);
-                break;
-            case MoveDirection.y:
-                startingPointFront += new Vector3(0, transform.localScale.y / 2, 0);
-                startingPointBack -= new Vector3(0, transform.localScale.y / 2, 0);
-                frontRay = new Ray(startingPointFront, transform.up);
-                backRay = new Ray(startingPointBack, -transform.up);
-                Debug.DrawRay(startingPointFront, transform.up);
-                break;
+    //     switch (direction)
+    //     {
+    //         case MoveDirection.x:
+    //             if(destinationCheckerScript.isInCollision)
+    //              break;
+    //         case MoveDirection.y:
+    //             startingPointFront += new Vector3(0, transform.localScale.y / 2, 0);
+    //             startingPointBack -= new Vector3(0, transform.localScale.y / 2, 0);
+    //             frontRay = new Ray(startingPointFront, transform.up);
+    //             backRay = new Ray(startingPointBack, -transform.up);
+    //             Debug.DrawRay(startingPointFront, transform.up);
+    //             break;
 
-            case MoveDirection.z:
-                // INVERTED FOR PERSPECTIVE VIEW
-                startingPointFront += new Vector3(0, 0, transform.localScale.z / 2);
-                startingPointBack -= new Vector3(0, 0, transform.localScale.z / 2);
-                frontRay = new Ray(startingPointFront, transform.forward);
-                backRay = new Ray(startingPointBack, -transform.forward);
-                Debug.DrawRay(startingPointFront, transform.forward);
-                Debug.DrawRay(startingPointBack, -transform.forward);
+    //         case MoveDirection.z:
+    //             // INVERTED FOR PERSPECTIVE VIEW
+    //             startingPointFront += new Vector3(0, 0, transform.localScale.z / 2);
+    //             startingPointBack -= new Vector3(0, 0, transform.localScale.z / 2);
+    //             frontRay = new Ray(startingPointFront, transform.forward);
+    //             backRay = new Ray(startingPointBack, -transform.forward);
+    //             Debug.DrawRay(startingPointFront, transform.forward);
+    //             Debug.DrawRay(startingPointBack, -transform.forward);
 
 
-                break;
-        }
+    //             break;
+    //     }
 
-        if (Physics.Raycast(frontRay, out hit, 0.1f))
-        {
-            canMoveForward = false;
-        }
-        else
-        {
-            canMoveForward = true;
-        }
+    //     if (Physics.Raycast(frontRay, out hit, 0.1f))
+    //     {
+    //         canMoveForward = false;
+    //     }
+    //     else
+    //     {
+    //         canMoveForward = true;
+    //     }
 
-        if (Physics.Raycast(backRay, out hit, 0.1f))
-        {
-            canMoveBackward = false;
-        }
-        else
-        {
-            canMoveBackward = true;
-        }
-    }
+    //     if (Physics.Raycast(backRay, out hit, 0.1f))
+    //     {
+    //         canMoveBackward = false;
+    //     }
+    //     else
+    //     {
+    //         canMoveBackward = true;
+    //     }
+    // }
 
     /* FUN TESTING
 
