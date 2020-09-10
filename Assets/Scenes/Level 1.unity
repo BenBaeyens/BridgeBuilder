@@ -914,7 +914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6195307412817339036, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
       propertyPath: direction
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6195307412817339036, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
       propertyPath: maxLimit.x
