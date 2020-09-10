@@ -165,6 +165,32 @@ public class BlockScript : MonoBehaviour
         }
     }
 
+    // Check for collisions
+    public void CheckForCollisions()
+    {
+        // Calculate starting point
+        Vector3 startingPointFront = transform.position;
+        Vector3 startingPointBack = transform.position;
+        switch (direction)
+        {
+            case MoveDirection.x:
+                startingPointFront += new Vector3(transform.localScale.x / 2, 0, 0);
+                startingPointBack -= new Vector3(transform.localScale.x / 2, 0, 0);
+
+                break;
+            case MoveDirection.y:
+                startingPointFront += new Vector3(0, transform.localScale.y / 2, 0);
+                startingPointBack -= new Vector3(0, transform.localScale.y / 2, 0);
+                break;
+
+            case MoveDirection.z:
+                startingPointFront += new Vector3(0, 0, transform.localScale.z / 2);
+                startingPointBack -= new Vector3(0, 0, transform.localScale.z / 2);
+
+                break;
+        }
+    }
+
     /* FUN TESTING
 
     public void ShootOffCall()
