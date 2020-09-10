@@ -36,6 +36,8 @@ public class BlockScript : MonoBehaviour
 
     public bool hasPlayerOnTop; // Set externally by player script
     public bool isLerpingMaterials; // Temporary in-between material used for lerping
+    public bool canMoveForward;
+    public bool canMoveBackward;
 
     float destinationX;
     float destinationY;
@@ -117,31 +119,34 @@ public class BlockScript : MonoBehaviour
 
     public void MoveCall(float mouseInputX, float mouseInputY)
     {
-        // INPUTS ARE NOT RELATIVE
-        switch (direction)
+        if ((mouseInputX >= 0 && canMoveForward) || (mouseInputX <= 0 && canMoveBackward) || (mouseInputY >= 0 && canMoveForward) || (mouseInputY <= 0 && canMoveBackward))
         {
-            case MoveDirection.x:
-                destination += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
-                destinationX = Mathf.Clamp(destination.x, minLimit.x, maxLimit.x);
-                destinationY = transform.position.y;
-                destinationZ = transform.position.z;
-                break;
+            // INPUTS ARE NOT RELATIVE
+            switch (direction)
+            {
+                case MoveDirection.x:
+                    destination += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
+                    destinationX = Mathf.Clamp(destination.x, minLimit.x, maxLimit.x);
+                    destinationY = transform.position.y;
+                    destinationZ = transform.position.z;
+                    break;
 
-            case MoveDirection.y:
-                destination += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
-                destinationX = transform.position.x;
-                destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
-                destinationZ = transform.position.z;
-                break;
+                case MoveDirection.y:
+                    destination += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
+                    destinationX = transform.position.x;
+                    destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
+                    destinationZ = transform.position.z;
+                    break;
 
-            case MoveDirection.z:
-                destination += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
-                destinationX = transform.position.x;
-                destinationY = transform.position.y;
-                destinationZ = Mathf.Clamp(destination.z, minLimit.z, maxLimit.z);
-                break;
+                case MoveDirection.z:
+                    destination += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
+                    destinationX = transform.position.x;
+                    destinationY = transform.position.y;
+                    destinationZ = Mathf.Clamp(destination.z, minLimit.z, maxLimit.z);
+                    break;
+            }
+            destination = new Vector3(destinationX, destinationY, destinationZ);
         }
-        destination = new Vector3(destinationX, destinationY, destinationZ);
     }
 
     // Draw the snap points
@@ -175,6 +180,7 @@ public class BlockScript : MonoBehaviour
         Vector3 startingPointFront = transform.position;
         Vector3 startingPointBack = transform.position;
 
+        // Can be optimised
         Ray frontRay = new Ray();
         Ray backRay = new Ray();
         RaycastHit hit = new RaycastHit();
@@ -183,27 +189,40 @@ public class BlockScript : MonoBehaviour
             case MoveDirection.x:
                 startingPointFront += new Vector3(transform.localScale.x / 2, 0, 0);
                 startingPointBack -= new Vector3(transform.localScale.x / 2, 0, 0);
-                frontRay = new Ray(startingPointFront, transform.forward * 0.2f);
-                backRay = new Ray(startingPointBack, -transform.forward * 0.2f);
+                frontRay = new Ray(startingPointFront, transform.right);
+                backRay = new Ray(startingPointBack, -transform.right);
                 break;
             case MoveDirection.y:
                 startingPointFront += new Vector3(0, transform.localScale.y / 2, 0);
                 startingPointBack -= new Vector3(0, transform.localScale.y / 2, 0);
-                frontRay = new Ray(startingPointFront, transform.up * 0.2f);
-                backRay = new Ray(startingPointBack, -transform.up * 0.2f);
+                frontRay = new Ray(startingPointFront, transform.up);
+                backRay = new Ray(startingPointBack, -transform.up);
                 break;
 
             case MoveDirection.z:
                 startingPointFront += new Vector3(0, 0, transform.localScale.z / 2);
                 startingPointBack -= new Vector3(0, 0, transform.localScale.z / 2);
-                frontRay = new Ray(startingPointFront, transform.right * 0.2f);
-                backRay = new Ray(startingPointBack, -transform.right * 0.2f);
+                frontRay = new Ray(startingPointFront, transform.forward);
+                backRay = new Ray(startingPointBack, -transform.forward);
                 break;
         }
 
         if (Physics.Raycast(frontRay, out hit, 0.2f))
         {
-            Debug.Log(hit);
+            canMoveForward = false;
+        }
+        else
+        {
+            canMoveForward = true;
+        }
+
+        if (Physics.Raycast(backRay, out hit, 0.2f))
+        {
+            canMoveBackward = false;
+        }
+        else
+        {
+            canMoveBackward = true;
         }
     }
 
