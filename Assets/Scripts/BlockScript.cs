@@ -67,11 +67,11 @@ public class BlockScript : MonoBehaviour
         {
             if (gameManager.lastSelectedObject == gameObject)
             {
-                thisRenderer.material = gameManager.selectedMaterial;
+                MaterialLerp(gameManager.selectedMaterial);
             }
             else
             {
-                thisRenderer.material = gameManager.defaultMaterial;
+                MaterialLerp(gameManager.defaultMaterial);
             }
         }
 
