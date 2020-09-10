@@ -61,7 +61,7 @@ public class BlockScript : MonoBehaviour
     {
         if (hasPlayerOnTop)
         {
-            thisRenderer.material = gameManager.unmovableBlockMaterial;
+            MaterialLerp(gameManager.unmovableBlockMaterial);
         }
         else
         {
