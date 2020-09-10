@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class CollisionCheckerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public bool isInCollision;
+
+    private void OnCollisionEnter(Collision other)
     {
-        
+        if (!other.transform.CompareTag("Block"))
+            isInCollision = true;
+    }
+    private void OnCollisionStay(Collision other)
+    {
+        if (!other.transform.CompareTag("Block"))
+            isInCollision = true;
+    }
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.transform.CompareTag("Block"))
+            isInCollision = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

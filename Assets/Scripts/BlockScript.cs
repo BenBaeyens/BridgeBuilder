@@ -30,7 +30,8 @@ public class BlockScript : MonoBehaviour
     public List<Vector3> snapDistances;
 
 
-    Vector3 destination;
+    Transform destination;
+    CollisionCheckerScript destinationCheckerScript;
     Vector3 originalPos;
     GameManager gameManager;
 
@@ -53,7 +54,9 @@ public class BlockScript : MonoBehaviour
     {
         thisRenderer = GetComponent<Renderer>();
         originalPos = transform.position;
-        destination = transform.position + new Vector3(Random.Range(-randomOffsetMargin.x, randomOffsetMargin.x), Random.Range(-randomOffsetMargin.y, randomOffsetMargin.y), Random.Range(-randomOffsetMargin.z, randomOffsetMargin.z)); // Apply the random offset
+        destination = transform.GetChild(0);
+        destinationCheckerScript = destination.GetComponent<CollisionCheckerScript>();
+        destination.position = transform.position + new Vector3(Random.Range(-randomOffsetMargin.x, randomOffsetMargin.x), Random.Range(-randomOffsetMargin.y, randomOffsetMargin.y), Random.Range(-randomOffsetMargin.z, randomOffsetMargin.z)); // Apply the random offset
         transform.position += startDistanceOffset; // Set the block position down by the offset
         gameManager = GameObject.FindObjectOfType<GameManager>(); // The game manager
         startTime = Time.time;
@@ -88,11 +91,11 @@ public class BlockScript : MonoBehaviour
                 {
                     if (Vector3.Distance(transform.position, snapDistances[i]) < snapCheckDistance)
                     {
-                        destination = snapDistances[i];
+                        destination.position = snapDistances[i];
                     }
                 }
             }
-            transform.position = Vector3.Lerp(transform.position, destination, Time.deltaTime * lerpSpeed);
+            transform.position = Vector3.Lerp(transform.position, destination.position, Time.deltaTime * lerpSpeed);
         }
         if (isLerpingMaterials)
         {
@@ -109,9 +112,9 @@ public class BlockScript : MonoBehaviour
 
     public bool HasReachedDestination()
     {
-        if (Vector3.Distance(transform.position, destination) <= checkDistance)
+        if (Vector3.Distance(transform.position, destination.position) <= checkDistance)
         {
-            transform.position = destination;
+            transform.position = destination.position;
             return true;
         }
         return false;
@@ -126,8 +129,8 @@ public class BlockScript : MonoBehaviour
             case MoveDirection.x:
                 if ((mouseInputX >= 0 && canMoveForward) || (mouseInputX <= 0 && canMoveBackward))
                 {
-                    destination += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
-                    destinationX = Mathf.Clamp(destination.x, minLimit.x, maxLimit.x);
+                    destination.position += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
+                    destinationX = Mathf.Clamp(destination.position.x, minLimit.x, maxLimit.x);
                     destinationY = transform.position.y;
                     destinationZ = transform.position.z;
                 }
@@ -135,9 +138,9 @@ public class BlockScript : MonoBehaviour
             case MoveDirection.y:
                 if ((mouseInputY >= 0 && canMoveForward) || (mouseInputY <= 0 && canMoveBackward))
                 {
-                    destination += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
+                    destination.position += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
                     destinationX = transform.position.x;
-                    destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
+                    destinationY = Mathf.Clamp(destination.position.y, minLimit.y, maxLimit.y);
                     destinationZ = transform.position.z;
                 }
                 break;
@@ -145,14 +148,14 @@ public class BlockScript : MonoBehaviour
             case MoveDirection.z:
                 if ((mouseInputX >= 0 && canMoveBackward) || (mouseInputX <= 0 && canMoveForward))
                 {
-                    destination += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
+                    destination.position += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
                     destinationX = transform.position.x;
                     destinationY = transform.position.y;
-                    destinationZ = Mathf.Clamp(destination.z, minLimit.z, maxLimit.z);
+                    destinationZ = Mathf.Clamp(destination.position.z, minLimit.z, maxLimit.z);
                 }
                 break;
         }
-        destination = new Vector3(destinationX, destinationY, destinationZ);
+        destination.position = new Vector3(destinationX, destinationY, destinationZ);
     }
 
 
@@ -184,8 +187,8 @@ public class BlockScript : MonoBehaviour
     public void CheckForCollisions()
     {
         // Calculate starting point
-        Vector3 startingPointFront = destination;
-        Vector3 startingPointBack = destination;
+        Vector3 startingPointFront = destination.position;
+        Vector3 startingPointBack = destination.position;
 
         // Can be optimised
         Ray frontRay = new Ray();
