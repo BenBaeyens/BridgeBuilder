@@ -198,12 +198,14 @@ public class BlockScript : MonoBehaviour
                 startingPointBack -= new Vector3(transform.localScale.x / 2, 0, 0);
                 frontRay = new Ray(startingPointFront, transform.right);
                 backRay = new Ray(startingPointBack, -transform.right);
+                Debug.DrawRay(startingPointFront, transform.right);
                 break;
             case MoveDirection.y:
                 startingPointFront += new Vector3(0, transform.localScale.y / 2, 0);
                 startingPointBack -= new Vector3(0, transform.localScale.y / 2, 0);
                 frontRay = new Ray(startingPointFront, transform.up);
                 backRay = new Ray(startingPointBack, -transform.up);
+                Debug.DrawRay(startingPointFront, transform.up);
                 break;
 
             case MoveDirection.z:
@@ -211,6 +213,8 @@ public class BlockScript : MonoBehaviour
                 startingPointBack -= new Vector3(0, 0, transform.localScale.z / 2);
                 frontRay = new Ray(startingPointFront, transform.forward);
                 backRay = new Ray(startingPointBack, -transform.forward);
+                Debug.DrawRay(startingPointFront, transform.forward);
+
                 break;
         }
 
