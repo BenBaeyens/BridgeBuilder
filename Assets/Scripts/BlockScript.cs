@@ -54,7 +54,7 @@ public class BlockScript : MonoBehaviour
     {
         thisRenderer = GetComponent<Renderer>();
         originalPos = transform.position;
-        destination = transform.GetChild(0);
+        destination = transform.parent.GetChild(1);
         destinationCheckerScript = destination.GetComponent<CollisionCheckerScript>();
         destination.position = transform.position + new Vector3(Random.Range(-randomOffsetMargin.x, randomOffsetMargin.x), Random.Range(-randomOffsetMargin.y, randomOffsetMargin.y), Random.Range(-randomOffsetMargin.z, randomOffsetMargin.z)); // Apply the random offset
         transform.position += startDistanceOffset; // Set the block position down by the offset
