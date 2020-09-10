@@ -158,8 +158,8 @@ public class BlockScript : MonoBehaviour
     {
         if (!isLerpingMaterials && targetMat != targetMaterial)
         {
-            isLerpingMaterials = true;
             startTime = Time.time;
+            isLerpingMaterials = true;
             originalMat = thisRenderer.material;
             targetMaterial = targetMat;
         }
