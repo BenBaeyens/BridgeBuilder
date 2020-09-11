@@ -6,27 +6,16 @@ public class CollisionCheckerScript : MonoBehaviour
 {
 
     public bool isInCollision;
+    public GameManager gameManager;
 
     private void Start()
     {
-        Physics.IgnoreCollision(transform.parent.GetChild(0).GetComponent<Collider>(), GetComponent<Collider>(), true);
+        gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        Debug.Log("COLLISION");
-        if (!other.transform.CompareTag("Block"))
-            isInCollision = true;
-    }
-    private void OnCollisionStay(Collision other)
-    {
-        if (!other.transform.CompareTag("Block"))
-            isInCollision = true;
-    }
-    private void OnCollisionExit(Collision other)
-    {
-        if (other.transform.CompareTag("Block"))
-            isInCollision = false;
-    }
 
+    private void Update()
+    {
+        if (GetComponent<Collider>().bounds.Intersects())
+    }
 }

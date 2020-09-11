@@ -22,10 +22,12 @@ public class GameManager : MonoBehaviour
     Material lerpMaterial; // The material that lerps between the two states
     [HideInInspector] public bool isMovingObject;
     bool hasSelectedObject;
+    [HideInInspector] public Collider[] colliders;
 
     private void Start()
     {
         camScript = Camera.main.GetComponent<CameraRotate>();
+        colliders = GameObject.FindObjectsOfType<Collider>();
     }
 
     private void Update()
