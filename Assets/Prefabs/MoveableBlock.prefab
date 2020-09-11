@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5577438322475266325}
   m_Layer: 2
   m_Name: Destination
-  m_TagString: Untagged
+  m_TagString: ColDet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,7 +67,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInCollision: 0
-  gameManager: {fileID: 0}
 --- !u!1 &4576655360361837414
 GameObject:
   m_ObjectHideFlags: 0
