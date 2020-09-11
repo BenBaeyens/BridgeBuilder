@@ -6,7 +6,7 @@ public class CollisionCheckerScript : MonoBehaviour
 {
 
     public bool isInCollision;
-    public GameManager gameManager;
+    GameManager gameManager;
 
     private void Start()
     {
@@ -16,7 +16,7 @@ public class CollisionCheckerScript : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < gameManager.colliders.Length; i++)
+        for (int i = 0; i < gameManager.colliders.Count; i++)
         {
 
             if (GetComponent<Collider>().bounds.Intersects(gameManager.colliders[i].bounds))
