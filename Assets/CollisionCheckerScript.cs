@@ -16,6 +16,15 @@ public class CollisionCheckerScript : MonoBehaviour
 
     private void Update()
     {
-        if (GetComponent<Collider>().bounds.Intersects())
+        for (int i = 0; i < gameManager.colliders.Length; i++)
+        {
+
+            if (GetComponent<Collider>().bounds.Intersects(gameManager.colliders[i].bounds))
+            {
+                isInCollision = true;
+                break;
+            }
+            isInCollision = false;
+        }
     }
 }
