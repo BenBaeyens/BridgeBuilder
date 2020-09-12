@@ -90,12 +90,12 @@ public class GameManager : MonoBehaviour
                 if (!hit.transform.GetComponent<BlockScript>().hasPlayerOnTop)
                 {
                     hasSelectedObject = true;
-                    lastSelectedBlockScript.MaterialLerp(selectedMaterial);
+                    lastSelectedBlockScript.MaterialLerpSetup(selectedMaterial);
                 }
                 else
                 {
                     hasSelectedObject = false;
-                    lastSelectedBlockScript.MaterialLerp(unmovableBlockMaterial);
+                    lastSelectedBlockScript.MaterialLerpSetup(unmovableBlockMaterial);
                 }
             }
             else
@@ -126,12 +126,12 @@ public class GameManager : MonoBehaviour
             else if (!isMovingObject && !hasSelectedObject)
             {
                 // Can be changed by lastselectedobjectrenderer
-                lastSelectedBlockScript.MaterialLerp(defaultMaterial);
+                lastSelectedBlockScript.MaterialLerpSetup(defaultMaterial);
                 lastSelectedObject = null;
             }
             else if (isMovingObject || hasSelectedObject)
             {
-                lastSelectedBlockScript.MaterialLerp(selectedMaterial);
+                lastSelectedBlockScript.MaterialLerpSetup(selectedMaterial);
             }
         }
     }

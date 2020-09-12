@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BlockScript : MonoBehaviour
@@ -37,8 +36,6 @@ public class BlockScript : MonoBehaviour
 
     public bool hasPlayerOnTop; // Set externally by player script
     public bool isLerpingMaterials; // Temporary in-between material used for lerping
-    public bool canMoveForward;
-    public bool canMoveBackward;
 
     float destinationX;
     float destinationY;
@@ -65,6 +62,18 @@ public class BlockScript : MonoBehaviour
 
     private void Update()
     {
+        CollisionDetection();
+
+        PlayerOnTopMaterialChange();
+
+        MovePlayer();
+
+        MaterialLerp();
+
+    }
+
+    private void CollisionDetection()
+    {
         for (int i = 0; i < gameManager.colliders.Count; i++)
         {
             if (GetComponent<Collider>().bounds.Intersects(gameManager.colliders[i].bounds) && gameManager.colliders[i] != destination.GetComponent<Collider>() && destination.GetComponent<CollisionCheckerScript>().isInCollision)
@@ -75,49 +84,6 @@ public class BlockScript : MonoBehaviour
             else if (!destination.GetComponent<CollisionCheckerScript>().isInCollision)
                 isInCollision = false;
         }
-
-        if (hasPlayerOnTop)
-        {
-            MaterialLerp(gameManager.unmovableBlockMaterial);
-        }
-        else
-        {
-            if (gameManager.lastSelectedObject == gameObject)
-            {
-                MaterialLerp(gameManager.selectedMaterial);
-            }
-            else
-            {
-                MaterialLerp(gameManager.defaultMaterial);
-            }
-        }
-
-        if (!HasReachedDestination() && !isInCollision)
-        {
-            if (snapDistances.Count > 0 && !gameManager.isMovingObject)
-            {
-                for (int i = 0; i < snapDistances.Count; i++)
-                {
-                    if (Vector3.Distance(transform.position, snapDistances[i]) < snapCheckDistance)
-                    {
-                        destination.position = snapDistances[i];
-                    }
-                }
-            }
-            transform.position = Vector3.Lerp(transform.position, destination.position, Time.deltaTime * lerpSpeed);
-        }
-
-        if (isLerpingMaterials)
-        {
-            t = (Time.time - startTime) * 10f;
-            thisRenderer.material.Lerp(originalMat, targetMaterial, t);
-            if (t >= 1f)
-            {
-                thisRenderer.material = targetMaterial;
-                isLerpingMaterials = false;
-            }
-        }
-
     }
 
     public bool HasReachedDestination()
@@ -168,6 +134,67 @@ public class BlockScript : MonoBehaviour
         destination.position = new Vector3(destinationX, destinationY, destinationZ);
     }
 
+    private void MovePlayer()
+    {
+        if (!HasReachedDestination() && !isInCollision)
+        {
+            if (snapDistances.Count > 0 && !gameManager.isMovingObject)
+            {
+                for (int i = 0; i < snapDistances.Count; i++)
+                {
+                    if (Vector3.Distance(transform.position, snapDistances[i]) < snapCheckDistance)
+                    {
+                        destination.position = snapDistances[i];
+                    }
+                }
+            }
+            transform.position = Vector3.Lerp(transform.position, destination.position, Time.deltaTime * lerpSpeed);
+        }
+    }
+
+    public void MaterialLerpSetup(Material targetMat)
+    {
+        if (!isLerpingMaterials && targetMat != targetMaterial)
+        {
+            startTime = Time.time;
+            isLerpingMaterials = true;
+            originalMat = thisRenderer.material;
+            targetMaterial = targetMat;
+        }
+    }
+
+    private void MaterialLerp()
+    {
+        if (isLerpingMaterials)
+        {
+            t = (Time.time - startTime) * 10f;
+            thisRenderer.material.Lerp(originalMat, targetMaterial, t);
+            if (t >= 1f)
+            {
+                thisRenderer.material = targetMaterial;
+                isLerpingMaterials = false;
+            }
+        }
+    }
+
+    private void PlayerOnTopMaterialChange()
+    {
+        if (hasPlayerOnTop)
+        {
+            MaterialLerpSetup(gameManager.unmovableBlockMaterial);
+        }
+        else
+        {
+            if (gameManager.lastSelectedObject == gameObject)
+            {
+                MaterialLerpSetup(gameManager.selectedMaterial);
+            }
+            else
+            {
+                MaterialLerpSetup(gameManager.defaultMaterial);
+            }
+        }
+    }
 
     // Draw the snap points
     private void OnDrawGizmosSelected()
@@ -181,25 +208,4 @@ public class BlockScript : MonoBehaviour
             }
         }
     }
-
-    public void MaterialLerp(Material targetMat)
-    {
-        if (!isLerpingMaterials && targetMat != targetMaterial)
-        {
-            startTime = Time.time;
-            isLerpingMaterials = true;
-            originalMat = thisRenderer.material;
-            targetMaterial = targetMat;
-        }
-    }
-
-
-    /* FUN TESTING
-
-    public void ShootOffCall()
-    {
-        destination = transform.position * 3 / 2;
-    }
-
-    */
 }
