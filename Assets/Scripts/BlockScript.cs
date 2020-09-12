@@ -65,7 +65,6 @@ public class BlockScript : MonoBehaviour
     private void Update()
     {
 
-        //CheckForCollisions();
 
         if (hasPlayerOnTop)
         {
@@ -183,54 +182,6 @@ public class BlockScript : MonoBehaviour
         }
     }
 
-    // Check for collisions
-    // public void CheckForCollisions()
-    // {
-
-    //     switch (direction)
-    //     {
-    //         case MoveDirection.x:
-    //             if(destinationCheckerScript.isInCollision)
-    //              break;
-    //         case MoveDirection.y:
-    //             startingPointFront += new Vector3(0, transform.localScale.y / 2, 0);
-    //             startingPointBack -= new Vector3(0, transform.localScale.y / 2, 0);
-    //             frontRay = new Ray(startingPointFront, transform.up);
-    //             backRay = new Ray(startingPointBack, -transform.up);
-    //             Debug.DrawRay(startingPointFront, transform.up);
-    //             break;
-
-    //         case MoveDirection.z:
-    //             // INVERTED FOR PERSPECTIVE VIEW
-    //             startingPointFront += new Vector3(0, 0, transform.localScale.z / 2);
-    //             startingPointBack -= new Vector3(0, 0, transform.localScale.z / 2);
-    //             frontRay = new Ray(startingPointFront, transform.forward);
-    //             backRay = new Ray(startingPointBack, -transform.forward);
-    //             Debug.DrawRay(startingPointFront, transform.forward);
-    //             Debug.DrawRay(startingPointBack, -transform.forward);
-
-
-    //             break;
-    //     }
-
-    //     if (Physics.Raycast(frontRay, out hit, 0.1f))
-    //     {
-    //         canMoveForward = false;
-    //     }
-    //     else
-    //     {
-    //         canMoveForward = true;
-    //     }
-
-    //     if (Physics.Raycast(backRay, out hit, 0.1f))
-    //     {
-    //         canMoveBackward = false;
-    //     }
-    //     else
-    //     {
-    //         canMoveBackward = true;
-    //     }
-    // }
 
     /* FUN TESTING
 

@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     Material lerpMaterial; // The material that lerps between the two states
     [HideInInspector] public bool isMovingObject;
     bool hasSelectedObject;
-    [HideInInspector] public List<Collider> colliders;
+    public List<Collider> colliders;
 
     private void Start()
     {

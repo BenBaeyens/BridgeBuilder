@@ -18,28 +18,25 @@ public class CollisionCheckerScript : MonoBehaviour
 
     private void Update()
     {
-        if (!isInCollision)
-        {
-            direction = lastPosition - transform.position;
-            lastPosition = transform.position;
-        }
-        else
-        {
-            Debug.Log("MOVING");
-            transform.position += direction;
-            Debug.Log(direction);
-        }
-
-
         for (int i = 0; i < gameManager.colliders.Count; i++)
         {
-
             if (GetComponent<Collider>().bounds.Intersects(gameManager.colliders[i].bounds) && gameManager.colliders[i] != GetComponent<Collider>())
             {
                 isInCollision = true;
                 break;
             }
             isInCollision = false;
+        }
+        if (!isInCollision)
+        {
+            direction = (lastPosition - transform.position);
+            lastPosition = transform.position;
+        }
+        else
+        {
+            Debug.Log("MOVING");
+            transform.position += direction * 0.1f;
+            Debug.Log(direction);
         }
     }
 }
