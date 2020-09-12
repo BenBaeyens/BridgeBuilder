@@ -30,7 +30,8 @@ public class BlockScript : MonoBehaviour
     public List<Vector3> snapDistances;
 
 
-    Vector3 destination;
+    Transform destination;
+    CollisionCheckerScript destinationCheckerScript;
     Vector3 originalPos;
     GameManager gameManager;
 
@@ -48,12 +49,15 @@ public class BlockScript : MonoBehaviour
     Material originalMat;
     float t;
     float startTime;
+    bool isInCollision;
 
     void Start()
     {
         thisRenderer = GetComponent<Renderer>();
         originalPos = transform.position;
-        destination = transform.position + new Vector3(Random.Range(-randomOffsetMargin.x, randomOffsetMargin.x), Random.Range(-randomOffsetMargin.y, randomOffsetMargin.y), Random.Range(-randomOffsetMargin.z, randomOffsetMargin.z)); // Apply the random offset
+        destination = transform.parent.GetChild(1);
+        destinationCheckerScript = destination.GetComponent<CollisionCheckerScript>();
+        destination.position = transform.position + new Vector3(Random.Range(-randomOffsetMargin.x, randomOffsetMargin.x), Random.Range(-randomOffsetMargin.y, randomOffsetMargin.y), Random.Range(-randomOffsetMargin.z, randomOffsetMargin.z)); // Apply the random offset
         transform.position += startDistanceOffset; // Set the block position down by the offset
         gameManager = GameObject.FindObjectOfType<GameManager>(); // The game manager
         startTime = Time.time;
@@ -61,8 +65,16 @@ public class BlockScript : MonoBehaviour
 
     private void Update()
     {
-
-        CheckForCollisions();
+        for (int i = 0; i < gameManager.colliders.Count; i++)
+        {
+            if (GetComponent<Collider>().bounds.Intersects(gameManager.colliders[i].bounds) && gameManager.colliders[i] != destination.GetComponent<Collider>() && destination.GetComponent<CollisionCheckerScript>().isInCollision)
+            {
+                isInCollision = true;
+                break;
+            }
+            else if (!destination.GetComponent<CollisionCheckerScript>().isInCollision)
+                isInCollision = false;
+        }
 
         if (hasPlayerOnTop)
         {
@@ -80,7 +92,7 @@ public class BlockScript : MonoBehaviour
             }
         }
 
-        if (!HasReachedDestination())
+        if (!HasReachedDestination() && !isInCollision)
         {
             if (snapDistances.Count > 0 && !gameManager.isMovingObject)
             {
@@ -88,12 +100,13 @@ public class BlockScript : MonoBehaviour
                 {
                     if (Vector3.Distance(transform.position, snapDistances[i]) < snapCheckDistance)
                     {
-                        destination = snapDistances[i];
+                        destination.position = snapDistances[i];
                     }
                 }
             }
-            transform.position = Vector3.Lerp(transform.position, destination, Time.deltaTime * lerpSpeed);
+            transform.position = Vector3.Lerp(transform.position, destination.position, Time.deltaTime * lerpSpeed);
         }
+
         if (isLerpingMaterials)
         {
             t = (Time.time - startTime) * 10f;
@@ -109,9 +122,9 @@ public class BlockScript : MonoBehaviour
 
     public bool HasReachedDestination()
     {
-        if (Vector3.Distance(transform.position, destination) <= checkDistance)
+        if (Vector3.Distance(transform.position, destination.position) <= checkDistance)
         {
-            transform.position = destination;
+            transform.position = destination.position;
             return true;
         }
         return false;
@@ -124,35 +137,35 @@ public class BlockScript : MonoBehaviour
         switch (direction)
         {
             case MoveDirection.x:
-                if ((mouseInputX >= 0 && canMoveForward) || (mouseInputX <= 0 && canMoveBackward))
+                if (!destinationCheckerScript.isInCollision)
                 {
-                    destination += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
-                    destinationX = Mathf.Clamp(destination.x, minLimit.x, maxLimit.x);
+                    destination.position += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
+                    destinationX = Mathf.Clamp(destination.position.x, minLimit.x, maxLimit.x);
                     destinationY = transform.position.y;
                     destinationZ = transform.position.z;
                 }
                 break;
             case MoveDirection.y:
-                if ((mouseInputY >= 0 && canMoveForward) || (mouseInputY <= 0 && canMoveBackward))
+                if (!destinationCheckerScript.isInCollision)
                 {
-                    destination += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
+                    destination.position += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
                     destinationX = transform.position.x;
-                    destinationY = Mathf.Clamp(destination.y, minLimit.y, maxLimit.y);
+                    destinationY = Mathf.Clamp(destination.position.y, minLimit.y, maxLimit.y);
                     destinationZ = transform.position.z;
                 }
                 break;
 
             case MoveDirection.z:
-                if ((mouseInputX >= 0 && canMoveBackward) || (mouseInputX <= 0 && canMoveForward))
+                if (!destinationCheckerScript.isInCollision)
                 {
-                    destination += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
+                    destination.position += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
                     destinationX = transform.position.x;
                     destinationY = transform.position.y;
-                    destinationZ = Mathf.Clamp(destination.z, minLimit.z, maxLimit.z);
+                    destinationZ = Mathf.Clamp(destination.position.z, minLimit.z, maxLimit.z);
                 }
                 break;
         }
-        destination = new Vector3(destinationX, destinationY, destinationZ);
+        destination.position = new Vector3(destinationX, destinationY, destinationZ);
     }
 
 
@@ -180,65 +193,6 @@ public class BlockScript : MonoBehaviour
         }
     }
 
-    // Check for collisions
-    public void CheckForCollisions()
-    {
-        // Calculate starting point
-        Vector3 startingPointFront = destination;
-        Vector3 startingPointBack = destination;
-
-        // Can be optimised
-        Ray frontRay = new Ray();
-        Ray backRay = new Ray();
-        RaycastHit hit = new RaycastHit();
-        switch (direction)
-        {
-            case MoveDirection.x:
-                startingPointFront += new Vector3(transform.localScale.x / 2, 0, 0);
-                startingPointBack -= new Vector3(transform.localScale.x / 2, 0, 0);
-                frontRay = new Ray(startingPointFront, transform.right);
-                backRay = new Ray(startingPointBack, -transform.right);
-                Debug.DrawRay(startingPointFront, transform.right);
-                break;
-            case MoveDirection.y:
-                startingPointFront += new Vector3(0, transform.localScale.y / 2, 0);
-                startingPointBack -= new Vector3(0, transform.localScale.y / 2, 0);
-                frontRay = new Ray(startingPointFront, transform.up);
-                backRay = new Ray(startingPointBack, -transform.up);
-                Debug.DrawRay(startingPointFront, transform.up);
-                break;
-
-            case MoveDirection.z:
-                // INVERTED FOR PERSPECTIVE VIEW
-                startingPointFront += new Vector3(0, 0, transform.localScale.z / 2);
-                startingPointBack -= new Vector3(0, 0, transform.localScale.z / 2);
-                frontRay = new Ray(startingPointFront, transform.forward);
-                backRay = new Ray(startingPointBack, -transform.forward);
-                Debug.DrawRay(startingPointFront, transform.forward);
-                Debug.DrawRay(startingPointBack, -transform.forward);
-
-
-                break;
-        }
-
-        if (Physics.Raycast(frontRay, out hit, 0.1f))
-        {
-            canMoveForward = false;
-        }
-        else
-        {
-            canMoveForward = true;
-        }
-
-        if (Physics.Raycast(backRay, out hit, 0.1f))
-        {
-            canMoveBackward = false;
-        }
-        else
-        {
-            canMoveBackward = true;
-        }
-    }
 
     /* FUN TESTING
 

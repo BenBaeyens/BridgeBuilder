@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public Material selectedMaterial; // The material the gameobject will have when selected
     public Material unmovableBlockMaterial; // The material when the player is on top of it
     public string blockTag = "Block"; // The tag to compare with
+    public string collisionDetectionTag = "ColDet";
     public float materialLerpTime = 0.1f;
 
     // PRIVATE VARIABLES
@@ -22,10 +23,19 @@ public class GameManager : MonoBehaviour
     Material lerpMaterial; // The material that lerps between the two states
     [HideInInspector] public bool isMovingObject;
     bool hasSelectedObject;
+    public List<Collider> colliders;
 
     private void Start()
     {
         camScript = Camera.main.GetComponent<CameraRotate>();
+        Collider[] tempCollider = GameObject.FindObjectsOfType<Collider>();
+        for (int i = 0; i < tempCollider.Length; i++)
+        {
+            if (tempCollider[i].transform.tag == collisionDetectionTag)
+            {
+                colliders.Add(tempCollider[i]);
+            }
+        }
     }
 
     private void Update()
