@@ -20,12 +20,14 @@ public class CollisionCheckerScript : MonoBehaviour
     {
         if (!isInCollision)
         {
-            lastPosition = transform.position;
             direction = lastPosition - transform.position;
+            lastPosition = transform.position;
         }
         else
         {
+            Debug.Log("MOVING");
             transform.position += direction;
+            Debug.Log(direction);
         }
 
 
