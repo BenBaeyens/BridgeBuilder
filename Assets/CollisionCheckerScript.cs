@@ -7,6 +7,7 @@ public class CollisionCheckerScript : MonoBehaviour
 
     public bool isInCollision;
     GameManager gameManager;
+    Vector3 lastPosition;
 
     private void Start()
     {
@@ -16,6 +17,15 @@ public class CollisionCheckerScript : MonoBehaviour
 
     private void Update()
     {
+        if (!isInCollision)
+        {
+            lastPosition = transform.position;
+        }
+        else
+        {
+            transform.position = lastPosition;
+        }
+
         for (int i = 0; i < gameManager.colliders.Count; i++)
         {
 
