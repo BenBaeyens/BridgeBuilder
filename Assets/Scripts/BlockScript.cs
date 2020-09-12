@@ -66,7 +66,7 @@ public class BlockScript : MonoBehaviour
 
         PlayerOnTopMaterialChange();
 
-        MovePlayer();
+        MoveBlock();
 
         MaterialLerp();
 
@@ -134,7 +134,7 @@ public class BlockScript : MonoBehaviour
         destination.position = new Vector3(destinationX, destinationY, destinationZ);
     }
 
-    private void MovePlayer()
+    private void MoveBlock()
     {
         if (!HasReachedDestination() && !isInCollision)
         {
