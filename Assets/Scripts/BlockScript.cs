@@ -81,7 +81,7 @@ public class BlockScript : MonoBehaviour
                 isInCollision = true;
                 break;
             }
-            else if (!destination.GetComponent<CollisionCheckerScript>().isInCollision)
+            else if (!destinationCheckerScript.isInCollision)
                 isInCollision = false;
         }
     }
@@ -98,40 +98,33 @@ public class BlockScript : MonoBehaviour
 
     public void MoveCall(float mouseInputX, float mouseInputY)
     {
-
         // INPUTS ARE NOT RELATIVE
-        switch (direction)
+        if (!destinationCheckerScript.isInCollision)
         {
-            case MoveDirection.x:
-                if (!destinationCheckerScript.isInCollision)
-                {
+            switch (direction)
+            {
+                case MoveDirection.x:
                     destination.position += new Vector3(moveSpeed * mouseInputX * Time.deltaTime, 0, 0);
                     destinationX = Mathf.Clamp(destination.position.x, minLimit.x, maxLimit.x);
                     destinationY = transform.position.y;
                     destinationZ = transform.position.z;
-                }
-                break;
-            case MoveDirection.y:
-                if (!destinationCheckerScript.isInCollision)
-                {
+                    break;
+                case MoveDirection.y:
                     destination.position += new Vector3(0, moveSpeed * mouseInputY * Time.deltaTime, 0);
                     destinationX = transform.position.x;
                     destinationY = Mathf.Clamp(destination.position.y, minLimit.y, maxLimit.y);
                     destinationZ = transform.position.z;
-                }
-                break;
+                    break;
 
-            case MoveDirection.z:
-                if (!destinationCheckerScript.isInCollision)
-                {
+                case MoveDirection.z:
                     destination.position += new Vector3(0, 0, moveSpeed * mouseInputY * Time.deltaTime);
                     destinationX = transform.position.x;
                     destinationY = transform.position.y;
                     destinationZ = Mathf.Clamp(destination.position.z, minLimit.z, maxLimit.z);
-                }
-                break;
+                    break;
+            }
+            destination.position = new Vector3(destinationX, destinationY, destinationZ);
         }
-        destination.position = new Vector3(destinationX, destinationY, destinationZ);
     }
 
     private void MoveBlock()
