@@ -49,6 +49,7 @@ public class BlockScript : MonoBehaviour
     Material originalMat;
     float t;
     float startTime;
+    bool isInCollision;
 
     void Start()
     {
@@ -64,7 +65,15 @@ public class BlockScript : MonoBehaviour
 
     private void Update()
     {
-
+        for (int i = 0; i < gameManager.colliders.Count; i++)
+        {
+            if (GetComponent<Collider>().bounds.Intersects(gameManager.colliders[i].bounds))
+            {
+                isInCollision = true;
+                break;
+            }
+            isInCollision = false;
+        }
 
         if (hasPlayerOnTop)
         {
@@ -82,7 +91,7 @@ public class BlockScript : MonoBehaviour
             }
         }
 
-        if (!HasReachedDestination())
+        if (!HasReachedDestination() && !isInCollision)
         {
             if (snapDistances.Count > 0 && !gameManager.isMovingObject)
             {
@@ -96,6 +105,7 @@ public class BlockScript : MonoBehaviour
             }
             transform.position = Vector3.Lerp(transform.position, destination.position, Time.deltaTime * lerpSpeed);
         }
+
         if (isLerpingMaterials)
         {
             t = (Time.time - startTime) * 10f;
