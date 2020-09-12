@@ -67,12 +67,13 @@ public class BlockScript : MonoBehaviour
     {
         for (int i = 0; i < gameManager.colliders.Count; i++)
         {
-            if (GetComponent<Collider>().bounds.Intersects(gameManager.colliders[i].bounds))
+            if (GetComponent<Collider>().bounds.Intersects(gameManager.colliders[i].bounds) && gameManager.colliders[i] != destination.GetComponent<Collider>() && destination.GetComponent<CollisionCheckerScript>().isInCollision)
             {
                 isInCollision = true;
                 break;
             }
-            isInCollision = false;
+            else if (!destination.GetComponent<CollisionCheckerScript>().isInCollision)
+                isInCollision = false;
         }
 
         if (hasPlayerOnTop)

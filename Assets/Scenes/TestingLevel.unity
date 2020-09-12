@@ -238,6 +238,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 721070213}
     m_Modifications:
+    - target: {fileID: 2880046072106605561, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.182
+      objectReference: {fileID: 0}
+    - target: {fileID: 3416941489135165871, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: maxLimit.y
+      value: 8.65
+      objectReference: {fileID: 0}
     - target: {fileID: 6195307412817339039, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
       propertyPath: m_Name
       value: MoveableBlock
@@ -248,7 +256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6195307412817339040, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -13.435995
+      value: -10.6
       objectReference: {fileID: 0}
     - target: {fileID: 6195307412817339040, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -285,6 +293,10 @@ PrefabInstance:
     - target: {fileID: 6195307412817339040, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6195307412817339040, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.983402
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 707a1272adec1ba46a8793c799092a5b, type: 3}
