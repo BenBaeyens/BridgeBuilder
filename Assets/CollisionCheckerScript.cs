@@ -33,10 +33,6 @@ public class CollisionCheckerScript : MonoBehaviour
             lastPosition = transform.position;
         }
         else
-        {
-            Debug.Log("MOVING");
             transform.position += direction * 0.1f;
-            Debug.Log(direction);
-        }
     }
 }
