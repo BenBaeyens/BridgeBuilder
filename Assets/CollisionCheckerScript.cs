@@ -8,6 +8,7 @@ public class CollisionCheckerScript : MonoBehaviour
     public bool isInCollision;
     GameManager gameManager;
     Vector3 lastPosition;
+    Vector3 direction;
 
     private void Start()
     {
@@ -20,11 +21,13 @@ public class CollisionCheckerScript : MonoBehaviour
         if (!isInCollision)
         {
             lastPosition = transform.position;
+            direction = lastPosition - transform.position;
         }
         else
         {
-            transform.position = lastPosition;
+            transform.position += direction;
         }
+
 
         for (int i = 0; i < gameManager.colliders.Count; i++)
         {
