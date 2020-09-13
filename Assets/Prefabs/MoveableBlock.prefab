@@ -52,7 +52,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.999, y: 0.999, z: 0.999}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5577438322475266325
 MonoBehaviour:
@@ -121,7 +121,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.999, y: 0.999, z: 0.999}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &939992034498791162
 MeshRenderer:
@@ -201,8 +201,6 @@ MonoBehaviour:
   - {x: 0, y: -4.7, z: 0}
   hasPlayerOnTop: 0
   isLerpingMaterials: 0
-  canMoveForward: 0
-  canMoveBackward: 0
 --- !u!1 &6195307412817339039
 GameObject:
   m_ObjectHideFlags: 0
