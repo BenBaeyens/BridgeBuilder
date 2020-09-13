@@ -200,5 +200,11 @@ public class BlockScript : MonoBehaviour
                 Gizmos.DrawSphere(snapDistances[i], 0.05f);
             }
         }
+
+        Gizmos.color = Color.grey;
+        Gizmos.DrawWireSphere(transform.position, 0.1f);
+        Gizmos.DrawWireSphere(maxLimit, 0.1f);
+        Gizmos.DrawWireSphere(minLimit, 0.1f);
+        Gizmos.DrawLine(minLimit, maxLimit);
     }
 }
