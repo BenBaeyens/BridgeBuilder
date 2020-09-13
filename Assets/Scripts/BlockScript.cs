@@ -204,9 +204,28 @@ public class BlockScript : MonoBehaviour
         // Min and max variables debugging
         Gizmos.color = Color.grey;
         Gizmos.DrawWireSphere(transform.position, 0.1f);
-        Gizmos.DrawWireSphere(maxLimit, 0.1f);
-        Gizmos.DrawWireSphere(minLimit, 0.1f);
-        Gizmos.DrawLine(minLimit, maxLimit);
+
+
+        switch (direction)
+        {
+            case MoveDirection.x:
+                Gizmos.DrawWireSphere(new Vector3(0, transform.position.y, transform.position.z) + maxLimit, 0.1f);
+                Gizmos.DrawWireSphere(new Vector3(0, transform.position.y, transform.position.z) + minLimit, 0.1f);
+                Gizmos.DrawLine(new Vector3(0, transform.position.y, transform.position.z) + maxLimit, new Vector3(0, transform.position.y, transform.position.z) + minLimit);
+                break;
+
+            case MoveDirection.y:
+                Gizmos.DrawWireSphere(new Vector3(transform.position.x, 0, transform.position.z) + maxLimit, 0.1f);
+                Gizmos.DrawWireSphere(new Vector3(transform.position.x, 0, transform.position.z) + minLimit, 0.1f);
+                Gizmos.DrawLine(new Vector3(transform.position.x, 0, transform.position.z) + maxLimit, new Vector3(transform.position.x, 0, transform.position.z) + minLimit);
+                break;
+
+            case MoveDirection.z:
+                Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y, 0) + maxLimit, 0.1f);
+                Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y, 0) + minLimit, 0.1f);
+                Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, 0) + maxLimit, new Vector3(transform.position.x, transform.position.y, 0) + minLimit);
+                break;
+        }
 
         // Start animation offset visualiser
         Gizmos.color = Color.green;
