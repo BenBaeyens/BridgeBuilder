@@ -201,10 +201,17 @@ public class BlockScript : MonoBehaviour
             }
         }
 
+        // Min and max variables debugging
         Gizmos.color = Color.grey;
         Gizmos.DrawWireSphere(transform.position, 0.1f);
         Gizmos.DrawWireSphere(maxLimit, 0.1f);
         Gizmos.DrawWireSphere(minLimit, 0.1f);
         Gizmos.DrawLine(minLimit, maxLimit);
+
+        // Start animation offset visualiser
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position + startDistanceOffset, 0.1f);
+        Gizmos.DrawLine(transform.position, transform.position + startDistanceOffset);
+
     }
 }
