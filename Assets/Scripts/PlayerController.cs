@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.enabled = false;
         moveableBlocks = GameObject.FindObjectsOfType<BlockScript>();
         destination = GameObject.FindObjectOfType<LocalNavMeshBuilder>().transform;
         GameObject[] tempNavCheckPoints = GameObject.FindGameObjectsWithTag("NavMarker");
@@ -57,6 +58,7 @@ public class PlayerController : MonoBehaviour
 
     public void StartPathFind()
     {
+        agent.enabled = true;
         hasStarted = true;
         if (navCheckPoints.Count >= 1)
         {
