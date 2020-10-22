@@ -70,7 +70,7 @@ public class CameraRotate : MonoBehaviour
         }
 
         if (backMove >= minBackMove && backMove <= maxBackMove)
-            cameraSmoother.transform.position += Vector3.back * back;
+            cameraSmoother.transform.position -= transform.forward * back;
         else
             backMove = Mathf.Clamp(backMove, minBackMove, maxBackMove);
 
